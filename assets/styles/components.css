@@ -1,0 +1,298 @@
+/* --------------------------------------------------------------------------
+   Reusable Components
+   -------------------------------------------------------------------------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 42px;
+    padding: 0 16px;
+    border-radius: var(--radius-lg);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    color: #000;
+    background: var(--text-primary);
+    border: 1px solid var(--text-primary);
+}
+
+.btn-primary:hover {
+    background: #e4e4e7;
+}
+
+.btn-secondary {
+    color: var(--text-primary);
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.bento-card,
+.surface-card {
+    position: relative;
+    min-width: 0;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: border-color var(--motion-normal), background var(--motion-normal), transform var(--motion-normal);
+}
+
+.bento-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(260px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08), transparent 42%);
+    transition: opacity var(--motion-normal);
+}
+
+.bento-card:hover {
+    border-color: var(--card-border-hover);
+    background: var(--card-bg-hover);
+}
+
+.bento-card:hover::before {
+    opacity: 1;
+}
+
+.card-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title,
+.section-title,
+.project-item-title,
+.profile-name,
+.skills-category-title {
+    margin: 0;
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.card-title {
+    font-size: 1.05rem;
+}
+
+.text-xl {
+    font-size: 1.35rem;
+}
+
+.card-subtitle,
+.card-description,
+.section-subtitle,
+.profile-title,
+.project-meta,
+.project-item-desc {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+.card-description {
+    margin-top: var(--space-2);
+    font-size: 0.86rem;
+    line-height: 1.55;
+}
+
+.card-badge,
+.badge {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-bottom: var(--space-3);
+    color: var(--text-muted);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.tech-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.tech-tag,
+.tag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 9px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.018);
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+
+/* --------------------------------------------------------------------------
+   Command Palette and Toast
+   -------------------------------------------------------------------------- */
+.cmd-k-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 14vh var(--space-4) var(--space-4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--motion-fast);
+}
+
+.cmd-k-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cmd-k-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(8px);
+}
+
+.cmd-k-container {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 520px);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(9, 9, 11, 0.94);
+    box-shadow: var(--shadow-modal);
+}
+
+.cmd-k-search-wrapper {
+    display: grid;
+    grid-template-columns: 16px 1fr auto;
+    gap: var(--space-3);
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.search-icon {
+    color: var(--text-muted);
+}
+
+.cmd-k-search-input {
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+}
+
+.cmd-k-search-input::placeholder {
+    color: var(--text-faint);
+}
+
+.esc-badge,
+.shortcut {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 0.62rem;
+}
+
+.esc-badge {
+    padding: 2px 5px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-xs);
+}
+
+.cmd-k-results {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 6px;
+}
+
+.cmd-k-group-title {
+    padding: 8px 9px 5px;
+    color: var(--text-muted);
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.cmd-k-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 38px;
+    padding: 0 9px;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.84rem;
+    transition: color var(--motion-fast), background var(--motion-fast);
+}
+
+.cmd-k-item svg {
+    flex: 0 0 auto;
+}
+
+.cmd-k-item span {
+    min-width: 0;
+    flex: 1;
+}
+
+.cmd-k-item:hover,
+.cmd-k-item.active {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.055);
+}
+
+.toast-container {
+    position: fixed;
+    right: var(--space-5);
+    bottom: var(--space-5);
+    z-index: 1100;
+    display: grid;
+    gap: var(--space-2);
+}
+
+.toast {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(9, 9, 11, 0.95);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-soft);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    animation: toast-fade-in var(--motion-normal) forwards;
+}
+
+@keyframes toast-fade-in {
+    from { transform: translateY(8px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Admin CMS | Scalabrin Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+    <link rel="stylesheet" href="../assets/styles/tokens.css">
+    <link rel="stylesheet" href="../assets/styles/base.css">
+    <link rel="stylesheet" href="../assets/styles/components.css">
+    <link rel="stylesheet" href="admin.css?v=2">
+</head>
+<body class="admin-body">
+    <div class="grid-overlay"></div>
+
+    <main class="admin-shell">
+        <section class="admin-auth" id="admin-auth">
+            <span class="admin-mark"><span class="logo-dot"></span> scalabrin.cms</span>
+            <h1>Admin do portfólio</h1>
+            <p id="auth-copy">Entre com GitHub para gerenciar projetos, conteúdo, skills, mídia e Kudos.</p>
+            <div class="admin-auth-actions">
+                <a class="btn btn-primary" id="github-login-btn" href="#" aria-disabled="true">Entrar com GitHub</a>
+                <button class="btn btn-secondary" id="auth-copy-user-btn" type="button" hidden>Copiar user id</button>
+                <button class="btn btn-secondary" id="auth-logout-btn" type="button" hidden>Sair</button>
+                <a class="btn btn-secondary" href="../index.html">Voltar ao site</a>
+            </div>
+            <p class="admin-auth-status" id="auth-status" role="status" aria-live="polite">Verificando autenticação...</p>
+            <div class="admin-alert" id="setup-alert" hidden>
+                Supabase ainda não está configurado em <code>assets/scripts/cms-config.js</code>. O painel abre em modo leitura/fallback.
+            </div>
+            <div class="admin-alert" id="admin-gate-alert" hidden>
+                <p>Login feito, mas este usuário ainda não está em <code>admin_users</code>.</p>
+                <div class="admin-user-id-row">
+                    <code id="auth-user-id"></code>
+                </div>
+            </div>
+        </section>
+
+        <section class="admin-app" id="admin-app" hidden>
+            <aside class="admin-sidebar" aria-label="Navegação do admin">
+                <a class="admin-brand" href="../index.html">
+                    <span class="logo-dot"></span>
+                    <span>scalabrin.cms</span>
+                </a>
+                <nav class="admin-nav">
+                    <button class="admin-nav-btn active" type="button" data-admin-view="dashboard">Dashboard</button>
+                    <button class="admin-nav-btn" type="button" data-admin-view="projects">Projetos</button>
+                    <button class="admin-nav-btn" type="button" data-admin-view="content">Conteúdo</button>
+                    <button class="admin-nav-btn" type="button" data-admin-view="experiences">Experiências</button>
+                    <button class="admin-nav-btn" type="button" data-admin-view="skills">Skills</button>
+                    <button class="admin-nav-btn" type="button" data-admin-view="media">Mídia</button>
+                    <button class="admin-nav-btn" type="button" data-admin-view="kudos">Kudos</button>
+                </nav>
+                <button class="btn btn-secondary" id="logout-btn" type="button">Sair</button>
+            </aside>
+
+            <section class="admin-main">
+                <header class="admin-topbar">
+                    <div>
+                        <p class="admin-eyebrow" id="admin-source">Fonte: fallback</p>
+                        <h2 id="admin-view-title">Dashboard</h2>
+                    </div>
+                    <div class="admin-status" id="admin-status" aria-live="polite">Pronto.</div>
+                </header>
+
+                <div class="admin-view active" id="view-dashboard">
+                    <div class="admin-metrics" id="dashboard-metrics"></div>
+                    <div class="admin-panel">
+                        <h3>Painel conectado</h3>
+                        <ol class="admin-checklist">
+                            <li>Use <strong>Projetos</strong> para editar cases, stack e publicação.</li>
+                            <li>Atualize textos institucionais em <strong>Conteúdo</strong>.</li>
+                            <li>Gerencie experiências, skills, links sociais e mídia nas demais áreas.</li>
+                            <li>As alterações são protegidas por autenticação GitHub e RLS.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="admin-view" id="view-projects">
+                    <div class="admin-split">
+                        <div class="admin-panel">
+                            <div class="admin-panel-head">
+                                <h3>Projetos</h3>
+                                <button class="btn btn-secondary" id="new-project-btn" type="button">Novo</button>
+                            </div>
+                            <div class="admin-list" id="project-list"></div>
+                        </div>
+                        <form class="admin-panel admin-form" id="project-form">
+                            <h3 id="project-form-title">Editar projeto</h3>
+                            <div class="admin-grid-2">
+                                <label>Slug<input name="slug" required></label>
+                                <label>Tipo<select name="type"><option value="game">Game</option><option value="iot">IoT</option><option value="software">Software</option></select></label>
+                            </div>
+                            <label>Título<input name="title" required></label>
+                            <label>Meta do card<input name="meta"></label>
+                            <label>Papel no modal<input name="role"></label>
+                            <label>Resumo<textarea name="summary" rows="3"></textarea></label>
+                            <label>Contexto<textarea name="context" rows="3"></textarea></label>
+                            <label>Card items JSON<textarea name="cardItems" rows="7"></textarea></label>
+                            <label>Responsabilidades<textarea name="responsibilities" rows="5"></textarea></label>
+                            <label>Decisões técnicas<textarea name="technicalDecisions" rows="5"></textarea></label>
+                            <label>Aprendizados<textarea name="learnings" rows="5"></textarea></label>
+                            <label>Stack CSV<input name="stack"></label>
+                            <div class="admin-grid-2">
+                                <label>Ordem<input name="sortOrder" type="number" min="0" value="0"></label>
+                                <label class="admin-check"><input name="published" type="checkbox" checked> Publicado</label>
+                            </div>
+                            <div class="admin-actions">
+                                <button class="btn btn-primary" type="submit">Salvar</button>
+                                <button class="btn btn-secondary" id="delete-project-btn" type="button">Excluir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="admin-view" id="view-content">
+                    <div class="admin-split">
+                        <div class="admin-panel admin-form">
+                            <h3>Blocos editáveis</h3>
+                            <label>Bloco<select id="content-key-select"></select></label>
+                            <label>Payload JSON<textarea id="content-payload" rows="16"></textarea></label>
+                            <button class="btn btn-primary" id="save-content-btn" type="button">Salvar bloco</button>
+                        </div>
+                        <div class="admin-panel admin-form">
+                            <div class="admin-panel-head">
+                                <h3>Links sociais</h3>
+                                <button class="btn btn-secondary" id="new-social-btn" type="button">Novo</button>
+                            </div>
+                            <div class="admin-list" id="social-list"></div>
+                            <form class="admin-form" id="social-form">
+                                <input name="id" type="hidden">
+                                <label>Nome<input name="name"></label>
+                                <label>Label<input name="label"></label>
+                                <label>URL<input name="url" type="url"></label>
+                                <div class="admin-grid-2">
+                                    <label>Ordem<input name="sort_order" type="number" min="0" value="0"></label>
+                                    <label class="admin-check"><input name="published" type="checkbox" checked> Publicado</label>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Salvar link</button>
+                                <button class="btn btn-secondary" id="delete-social-btn" type="button">Excluir link</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-view" id="view-experiences">
+                    <div class="admin-split">
+                        <div class="admin-panel">
+                            <div class="admin-panel-head"><h3>Experiências</h3><button class="btn btn-secondary" id="new-experience-btn" type="button">Nova</button></div>
+                            <div class="admin-list" id="experience-list"></div>
+                        </div>
+                        <form class="admin-panel admin-form" id="experience-form">
+                            <input name="id" type="hidden">
+                            <label>Empresa<input name="company"></label>
+                            <label>Cargo<input name="role"></label>
+                            <label>Período<input name="period"></label>
+                            <label>Badge<input name="badge"></label>
+                            <label>Highlights JSON<textarea name="highlights" rows="8"></textarea></label>
+                            <label>Stack CSV<input name="stack"></label>
+                            <div class="admin-grid-2">
+                                <label>Ordem<input name="sort_order" type="number" min="0" value="0"></label>
+                                <label class="admin-check"><input name="published" type="checkbox" checked> Publicado</label>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Salvar experiência</button>
+                            <button class="btn btn-secondary" id="delete-experience-btn" type="button">Excluir experiência</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="admin-view" id="view-skills">
+                    <div class="admin-split">
+                        <div class="admin-panel">
+                            <div class="admin-panel-head"><h3>Skills</h3><button class="btn btn-secondary" id="new-skill-btn" type="button">Nova</button></div>
+                            <div class="admin-list" id="skill-list"></div>
+                        </div>
+                        <form class="admin-panel admin-form" id="skill-form">
+                            <input name="id" type="hidden">
+                            <label>Grupo<input name="group"></label>
+                            <label>Itens, um por linha<textarea name="items" rows="10"></textarea></label>
+                            <div class="admin-grid-2">
+                                <label>Ordem<input name="sort_order" type="number" min="0" value="0"></label>
+                                <label class="admin-check"><input name="published" type="checkbox" checked> Publicado</label>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Salvar skill</button>
+                            <button class="btn btn-secondary" id="delete-skill-btn" type="button">Excluir skill</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="admin-view" id="view-media">
+                    <div class="admin-panel admin-form">
+                        <h3>Upload de mídia</h3>
+                        <label>Projeto<select id="media-project-select"></select></label>
+                        <label>Arquivo<input id="media-file" type="file" accept="image/*"></label>
+                        <label>Alt text obrigatório<input id="media-alt" required></label>
+                        <label>Legenda<input id="media-caption"></label>
+                        <div class="admin-grid-2">
+                            <label>Tone<select id="media-tone"><option value="photo">photo</option><option value="color">color</option><option value="logo">logo</option></select></label>
+                            <label class="admin-check"><input id="media-cover" type="checkbox"> Imagem de capa</label>
+                        </div>
+                        <button class="btn btn-primary" id="upload-media-btn" type="button">Subir imagem</button>
+                    </div>
+                    <div class="admin-panel">
+                        <h3>Mídias cadastradas</h3>
+                        <div class="admin-list" id="media-list"></div>
+                    </div>
+                </div>
+
+                <div class="admin-view" id="view-kudos">
+                    <div class="admin-panel">
+                        <h3>Kudos</h3>
+                        <p class="admin-kudos-number" id="admin-kudos-count">0</p>
+                        <p class="admin-muted">O incremento público deve passar pela Edge Function para aplicar rate limit e preservar privacidade.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="../assets/scripts/config.js"></script>
+    <script src="../assets/scripts/cms-config.js?v=3"></script>
+    <script src="../assets/scripts/cms-fallback-data.js"></script>
+    <script src="../assets/scripts/cms-client.js?v=6"></script>
+    <script src="admin.js?v=9"></script>
+</body>
+</html>
