@@ -624,20 +624,25 @@
     }
 
     function bindEvents() {
-        $('#github-login-btn')?.addEventListener('click', async event => {
-            if (event.currentTarget.getAttribute('aria-disabled') === 'true') {
+        $('#github-login-btn')?.addEventListener('click', event => {
+            const loginLink = event.currentTarget;
+
+            if (loginLink.getAttribute('aria-disabled') === 'true') {
                 event.preventDefault();
                 return;
             }
 
-            try {
+            const href = loginLink.getAttribute('href');
+            if (!href || href === '#') {
                 event.preventDefault();
-                setStatus('Abrindo login GitHub...');
-                const result = await window.Portfolio.cms.signInWithGithub();
-                if (result?.error) throw result.error;
-            } catch (error) {
-                setStatus(error.message || 'Não foi possível iniciar login GitHub.');
+                setStatus('Não foi possível iniciar login GitHub.');
+                return;
             }
+
+            // Preserve the browser's user-initiated navigation. Delaying the
+            // redirect until after an async OAuth call can be blocked by
+            // in-app browsers and strict privacy settings.
+            setStatus('Abrindo login GitHub...');
         });
         $('#auth-copy-user-btn')?.addEventListener('click', () => {
             if (state.authUserId) copyText(state.authUserId, 'User ID copiado.');
