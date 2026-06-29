@@ -89,9 +89,7 @@
             try {
                 const result = await window.Portfolio.cms.recordKudo();
                 if (result && Number.isFinite(Number(result.count))) {
-                    state.count = Math.max(state.count, Number(result.count));
-                    writeState();
-                    render();
+                    setRemoteCount(result.count);
                 }
             } catch (error) {
                 window.Portfolio.toast.show('Kudos salvo localmente. Sincronizacao indisponivel agora.');
@@ -103,11 +101,9 @@
         const remoteCount = Number(count);
         if (!Number.isFinite(remoteCount) || remoteCount < 0) return;
 
-        if (remoteCount > state.count) {
-            state.count = Math.floor(remoteCount);
-            writeState();
-            render();
-        }
+        state.count = Math.floor(remoteCount);
+        writeState();
+        render();
     }
 
     function init() {

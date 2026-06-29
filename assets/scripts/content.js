@@ -183,7 +183,9 @@
         applySocialLinks(data.socialLinks);
 
         window.Portfolio.projects?.setProjects?.(data.projects);
-        window.Portfolio.kudos?.setRemoteCount?.(data.kudosSummary && data.kudosSummary.count);
+        if (data.source === 'supabase') {
+            window.Portfolio.kudos?.setRemoteCount?.(data.kudosSummary && data.kudosSummary.count);
+        }
     }
 
     function init() {
