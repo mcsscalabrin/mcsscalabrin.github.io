@@ -15,33 +15,8 @@
         return Boolean(config.enabled && config.supabaseUrl && config.supabaseAnonKey);
     }
 
-    async function checkAdminNetworkGate() {
-        const config = getConfig();
-        if (['localhost', '127.0.0.1'].includes(window.location.hostname)) {
-            return { allowed: true, source: 'local-development' };
-        }
-        if (!config.requireAdminNetworkGate) return { allowed: true, source: 'disabled' };
-        if (!config.adminGateFunctionUrl) return { allowed: false, reason: 'gate-not-configured' };
-
-        try {
-            const response = await fetch(config.adminGateFunctionUrl, {
-                method: 'POST',
-                headers: {
-                    apikey: config.supabaseAnonKey,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ path: window.location.pathname }),
-                cache: 'no-store'
-            });
-            const payload = await response.json().catch(() => ({}));
-            return {
-                allowed: response.ok && payload.allowed === true,
-                reason: payload.reason || (response.ok ? '' : 'request-denied'),
-                status: response.status
-            };
-        } catch (error) {
-            return { allowed: false, reason: 'gate-unavailable' };
-        }
+    function isLocalAdminHost() {
+        return ['localhost', '127.0.0.1'].includes(window.location.hostname);
     }
 
     function getFallbackContent(source) {
@@ -380,6 +355,65 @@
         await client.auth.signOut();
     }
 
+    async function getMfaState() {
+        const client = await getClient();
+        if (!client) throw new Error('Supabase não configurado.');
+
+        const [assurance, factors] = await Promise.all([
+            client.auth.mfa.getAuthenticatorAssuranceLevel(),
+            client.auth.mfa.listFactors()
+        ]);
+        if (assurance.error) throw assurance.error;
+        if (factors.error) throw factors.error;
+
+        const verifiedTotp = safeArray(factors.data?.totp)
+            .find(factor => !factor.status || factor.status === 'verified') || null;
+
+        return {
+            currentLevel: assurance.data?.currentLevel || 'aal1',
+            nextLevel: assurance.data?.nextLevel || 'aal1',
+            verifiedFactor: verifiedTotp
+        };
+    }
+
+    async function enrollMfaTotp() {
+        const client = await getClient();
+        if (!client) throw new Error('Supabase não configurado.');
+
+        const { data, error } = await client.auth.mfa.enroll({
+            factorType: 'totp',
+            friendlyName: 'Scalabrin CMS'
+        });
+        if (error) throw error;
+        if (!data?.id || !data?.totp?.qr_code || !data?.totp?.secret) {
+            throw new Error('Supabase não retornou os dados de configuração do MFA.');
+        }
+
+        return {
+            factorId: data.id,
+            qrCode: data.totp.qr_code,
+            secret: data.totp.secret
+        };
+    }
+
+    async function verifyMfaTotp(factorId, code) {
+        const client = await getClient();
+        if (!client) throw new Error('Supabase não configurado.');
+        if (!factorId) throw new Error('Fator MFA não encontrado.');
+
+        const normalizedCode = String(code || '').replace(/\s+/g, '');
+        if (!/^\d{6}$/.test(normalizedCode)) {
+            throw new Error('Digite o código de seis dígitos do autenticador.');
+        }
+
+        const { data, error } = await client.auth.mfa.challengeAndVerify({
+            factorId,
+            code: normalizedCode
+        });
+        if (error) throw error;
+        return data;
+    }
+
     async function onAuthStateChange(callback) {
         const client = await getClient();
         if (!client || !client.auth?.onAuthStateChange) return null;
@@ -594,12 +628,15 @@
         getFallbackContent,
         loadPublicContent,
         getGithubAuthorizeUrl,
-        checkAdminNetworkGate,
+        isLocalAdminHost,
         getAuthCallbackError,
         getSession,
         getUser,
         signInWithGithub,
         signOut,
+        getMfaState,
+        enrollMfaTotp,
+        verifyMfaTotp,
         onAuthStateChange,
         isAdmin,
         loadAdminData,
