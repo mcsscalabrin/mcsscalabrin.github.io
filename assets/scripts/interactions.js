@@ -3,23 +3,23 @@
 
     const domainContent = {
         systems: {
-            title: 'Sistemas',
-            text: 'RBAC e micro-frontends em ecossistemas de alta escala.',
-            evidence: 'Itaú Unibanco · SRE · APIs',
+            title: 'Backend e integrações',
+            text: 'APIs, controle de acesso baseado em papéis (RBAC) e micro-frontends.',
+            evidence: 'Itaú Unibanco · SRE · Power Platform',
             color: '#22c55e',
             rgb: '34, 197, 94'
         },
         automation: {
             title: 'Automação',
-            text: 'Fluxos operacionais que reduzem atrito e tornam decisões repetíveis.',
-            evidence: 'Power Platform · Python · Integrações',
+            text: 'Automação de processos com Power Platform, Python e integrações REST.',
+            evidence: 'Power Platform · Python · APIs',
             color: '#5eead4',
             rgb: '94, 234, 212'
         },
         product: {
             title: 'Produto',
-            text: 'Sistemas complexos traduzidos em experiências claras e explicáveis.',
-            evidence: 'Ruins · PC Setup · UX',
+            text: 'Projetos de software, IoT e games com foco em regras, interface e validação.',
+            evidence: 'Ruins · Sensor IoT · PC Setup',
             color: '#8b5cf6',
             rgb: '139, 92, 246'
         }
@@ -63,7 +63,9 @@
     function initSectionObserver() {
         const links = Array.from(document.querySelectorAll('.main-nav .nav-link'));
         const sections = links
-            .map(link => document.querySelector(link.getAttribute('href')))
+            .map(link => link.getAttribute('href'))
+            .filter(href => href && href.startsWith('#'))
+            .map(href => document.querySelector(href))
             .filter(Boolean);
         if (!sections.length || !('IntersectionObserver' in window)) return;
 

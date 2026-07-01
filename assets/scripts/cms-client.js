@@ -15,6 +15,35 @@
         return Boolean(config.enabled && config.supabaseUrl && config.supabaseAnonKey);
     }
 
+    async function checkAdminNetworkGate() {
+        const config = getConfig();
+        if (['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+            return { allowed: true, source: 'local-development' };
+        }
+        if (!config.requireAdminNetworkGate) return { allowed: true, source: 'disabled' };
+        if (!config.adminGateFunctionUrl) return { allowed: false, reason: 'gate-not-configured' };
+
+        try {
+            const response = await fetch(config.adminGateFunctionUrl, {
+                method: 'POST',
+                headers: {
+                    apikey: config.supabaseAnonKey,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ path: window.location.pathname }),
+                cache: 'no-store'
+            });
+            const payload = await response.json().catch(() => ({}));
+            return {
+                allowed: response.ok && payload.allowed === true,
+                reason: payload.reason || (response.ok ? '' : 'request-denied'),
+                status: response.status
+            };
+        } catch (error) {
+            return { allowed: false, reason: 'gate-unavailable' };
+        }
+    }
+
     function getFallbackContent(source) {
         return Object.assign({ source: source || 'fallback' }, window.Portfolio.fallbackData || {});
     }
@@ -175,9 +204,46 @@
             technicalDecisions: safeArray(row.technical_decisions || row.technicalDecisions),
             learnings: safeArray(row.learnings),
             stack: safeArray(row.stack),
+            repositoryUrl: row.repository_url || row.repositoryUrl || '',
+            projectUrl: row.project_url || row.projectUrl || '',
+            projectUrlLabel: row.project_url_label || row.projectUrlLabel || '',
             published: row.published !== false,
             sortOrder: Number(row.sort_order || row.sortOrder || 0),
             media
+        };
+    }
+
+    function normalizeCertificate(row) {
+        const storagePath = row.image_storage_path || row.imageStoragePath || '';
+        return {
+            id: row.id,
+            name: row.name || '',
+            issuer: row.issuer || '',
+            issuedAt: row.issued_at || row.issuedAt || '',
+            credentialId: row.credential_id || row.credentialId || '',
+            credentialUrl: row.credential_url || row.credentialUrl || '',
+            description: row.description || '',
+            skills: safeArray(row.skills),
+            imageStoragePath: storagePath,
+            imageUrl: storagePath ? buildMediaUrl({ storage_path: storagePath }) : '',
+            published: row.published !== false,
+            sortOrder: Number(row.sort_order || row.sortOrder || 0)
+        };
+    }
+
+    function normalizeExperience(row) {
+        const storagePath = row.logo_storage_path || row.logoStoragePath || '';
+        const fallback = safeArray(window.Portfolio.fallbackData?.experiences)
+            .find(item => String(item.company).toLowerCase() === String(row.company).toLowerCase());
+        const fallbackUrl = fallback?.logoUrl || '';
+        return {
+            ...row,
+            highlights: safeArray(row.highlights),
+            stack: safeArray(row.stack),
+            logoStoragePath: storagePath,
+            logoUrl: storagePath ? buildMediaUrl({ storage_path: storagePath }) : fallbackUrl,
+            logoFallbackUrl: fallbackUrl,
+            sortOrder: Number(row.sort_order || row.sortOrder || 0)
         };
     }
 
@@ -192,6 +258,7 @@
                 mediaResult,
                 experiencesResult,
                 skillsResult,
+                certificatesResult,
                 socialsResult,
                 kudosResult
             ] = await Promise.all([
@@ -200,6 +267,7 @@
                 client.from('project_media').select('*').eq('published', true).order('sort_order', { ascending: true }),
                 client.from('experiences').select('*').eq('published', true).order('sort_order', { ascending: true }),
                 client.from('skills').select('*').eq('published', true).order('sort_order', { ascending: true }),
+                client.from('certificates').select('*').eq('published', true).order('sort_order', { ascending: true }),
                 client.from('social_links').select('*').eq('published', true).order('sort_order', { ascending: true }),
                 client.from('kudos_summary').select('count').eq('id', 'global').maybeSingle()
             ]);
@@ -210,6 +278,7 @@
                 mediaResult,
                 experiencesResult,
                 skillsResult,
+                certificatesResult,
                 socialsResult,
                 kudosResult
             ].some(result => result.error);
@@ -225,13 +294,15 @@
             const projects = safeArray(projectsResult.data)
                 .map(row => normalizeProject(row, mediaRows))
                 .filter(project => project.title);
+            const certificates = safeArray(certificatesResult.data).map(normalizeCertificate);
 
             return {
                 source: 'supabase',
                 contentBlocks: Object.assign({}, window.Portfolio.fallbackData.contentBlocks, contentBlocks),
                 projects: projects.length ? projects : window.Portfolio.fallbackData.projects,
-                experiences: safeArray(experiencesResult.data),
+                experiences: safeArray(experiencesResult.data).map(normalizeExperience),
                 skills: safeArray(skillsResult.data),
+                certificates: certificates.length ? certificates : window.Portfolio.fallbackData.certificates,
                 socialLinks: safeArray(socialsResult.data),
                 kudosSummary: kudosResult.data || { count: 0 }
             };
@@ -331,17 +402,18 @@
         const client = await getClient();
         if (!client) throw new Error('Supabase não configurado.');
 
-        const [projects, media, blocks, experiences, skills, socials, kudos] = await Promise.all([
+        const [projects, media, blocks, experiences, skills, certificates, socials, kudos] = await Promise.all([
             client.from('projects').select('*').order('sort_order', { ascending: true }),
             client.from('project_media').select('*').order('sort_order', { ascending: true }),
             client.from('content_blocks').select('*').order('key', { ascending: true }),
             client.from('experiences').select('*').order('sort_order', { ascending: true }),
             client.from('skills').select('*').order('sort_order', { ascending: true }),
+            client.from('certificates').select('*').order('sort_order', { ascending: true }),
             client.from('social_links').select('*').order('sort_order', { ascending: true }),
             client.from('kudos_summary').select('*').eq('id', 'global').maybeSingle()
         ]);
 
-        const results = { projects, media, blocks, experiences, skills, socials, kudos };
+        const results = { projects, media, blocks, experiences, skills, certificates, socials, kudos };
         Object.keys(results).forEach(key => {
             if (results[key].error) throw results[key].error;
         });
@@ -350,8 +422,9 @@
             projects: safeArray(projects.data).map(project => normalizeProject(project, media.data)),
             media: safeArray(media.data).map(normalizeMedia),
             contentBlocks: safeArray(blocks.data),
-            experiences: safeArray(experiences.data),
+            experiences: safeArray(experiences.data).map(normalizeExperience),
             skills: safeArray(skills.data),
+            certificates: safeArray(certificates.data).map(normalizeCertificate),
             socialLinks: safeArray(socials.data),
             kudosSummary: kudos.data || { id: 'global', count: 0 }
         };
@@ -372,6 +445,9 @@
             technical_decisions: safeArray(project.technicalDecisions),
             learnings: safeArray(project.learnings),
             stack: safeArray(project.stack),
+            repository_url: project.repositoryUrl || '',
+            project_url: project.projectUrl || '',
+            project_url_label: project.projectUrlLabel || '',
             published: Boolean(project.published),
             sort_order: Number(project.sortOrder || 0)
         };
@@ -423,12 +499,69 @@
 
     async function saveExperience(item) {
         const client = await getClient();
-        return client.from('experiences').upsert(item).select().single();
+        const payload = {
+            id: item.id || undefined,
+            company: item.company,
+            role: item.role || '',
+            period: item.period || '',
+            badge: item.badge || '',
+            highlights: safeArray(item.highlights),
+            stack: safeArray(item.stack),
+            logo_storage_path: item.logoStoragePath || item.logo_storage_path || '',
+            published: item.published !== false,
+            sort_order: Number(item.sortOrder || item.sort_order || 0)
+        };
+        return client.from('experiences').upsert(payload).select().single();
+    }
+
+    async function uploadExperienceLogo(file, company) {
+        const client = await getClient();
+        const bucket = getConfig().storageBucket || 'portfolio-media';
+        const cleanCompany = String(company || 'organization').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const cleanName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, '-');
+        const path = `experiences/${cleanCompany}/${Date.now()}-${cleanName}`;
+        const result = await client.storage.from(bucket).upload(path, file, {
+            cacheControl: '3600',
+            upsert: false
+        });
+        if (result.error) throw result.error;
+        return { storagePath: path, publicUrl: client.storage.from(bucket).getPublicUrl(path).data.publicUrl };
     }
 
     async function saveSkill(item) {
         const client = await getClient();
         return client.from('skills').upsert(item).select().single();
+    }
+
+    async function saveCertificate(item) {
+        const client = await getClient();
+        const payload = {
+            id: item.id || undefined,
+            name: item.name,
+            issuer: item.issuer,
+            issued_at: item.issuedAt || null,
+            credential_id: item.credentialId || '',
+            credential_url: item.credentialUrl || '',
+            description: item.description || '',
+            skills: safeArray(item.skills),
+            image_storage_path: item.imageStoragePath || '',
+            published: item.published !== false,
+            sort_order: Number(item.sortOrder || 0)
+        };
+        return client.from('certificates').upsert(payload).select().single();
+    }
+
+    async function uploadCertificateImage(file) {
+        const client = await getClient();
+        const bucket = getConfig().storageBucket || 'portfolio-media';
+        const cleanName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, '-');
+        const path = `certificates/${Date.now()}-${cleanName}`;
+        const result = await client.storage.from(bucket).upload(path, file, {
+            cacheControl: '3600',
+            upsert: false
+        });
+        if (result.error) throw result.error;
+        return { storagePath: path, publicUrl: client.storage.from(bucket).getPublicUrl(path).data.publicUrl };
     }
 
     async function saveSocialLink(item) {
@@ -461,6 +594,7 @@
         getFallbackContent,
         loadPublicContent,
         getGithubAuthorizeUrl,
+        checkAdminNetworkGate,
         getAuthCallbackError,
         getSession,
         getUser,
@@ -475,10 +609,14 @@
         uploadMedia,
         saveContentBlock,
         saveExperience,
+        uploadExperienceLogo,
         saveSkill,
+        saveCertificate,
+        uploadCertificateImage,
         saveSocialLink,
         deleteRow,
         recordKudo,
-        normalizeProject
+        normalizeProject,
+        normalizeCertificate
     };
 })();

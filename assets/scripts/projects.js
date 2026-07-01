@@ -22,6 +22,61 @@
             .replace(/'/g, '&#039;');
     }
 
+    function safeExternalUrl(value) {
+        const candidate = String(value || '').trim();
+        if (!candidate) return '';
+
+        try {
+            const url = new URL(candidate, window.location.href);
+            return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+        } catch {
+            return '';
+        }
+    }
+
+    function resolveExternalAction(project) {
+        const projectUrl = safeExternalUrl(project && (project.projectUrl || project.project_url));
+        if (projectUrl) {
+            const hostname = new URL(projectUrl).hostname.toLowerCase();
+            const isItch = hostname === 'itch.io' || hostname.endsWith('.itch.io');
+            return {
+                url: projectUrl,
+                label: String(project.projectUrlLabel || project.project_url_label || '').trim()
+                    || (isItch ? 'Jogar na itch.io' : 'Abrir projeto'),
+                kind: isItch ? 'itch' : 'external'
+            };
+        }
+
+        const repositoryUrl = safeExternalUrl(project && (project.repositoryUrl || project.repository_url));
+        return repositoryUrl
+            ? { url: repositoryUrl, label: 'Abrir no GitHub', kind: 'github' }
+            : null;
+    }
+
+    function externalActionIcon(kind) {
+        if (kind === 'github') {
+            return '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.54 1.03 1.54 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.55 9.55 0 0 1 12 6.84c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>';
+        }
+
+        if (kind === 'itch') {
+            return '<svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.2 7h7.6a4.8 4.8 0 0 1 4.5 3.15l1.25 3.45a2.7 2.7 0 0 1-4.65 2.62L15.7 14.8H8.3l-1.2 1.42a2.7 2.7 0 0 1-4.65-2.62l1.25-3.45A4.8 4.8 0 0 1 8.2 7Z"/><path d="M7 10.4v3M5.5 11.9h3M16.4 10.8h.01M18.2 12.7h.01"/></svg>';
+        }
+
+        return '<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17 17 7M7 7h10v10"/></svg>';
+    }
+
+    function renderProjectExternalAction(project) {
+        const action = resolveExternalAction(project);
+        if (!action) return '';
+
+        return `
+            <a class="core-btn core-btn--secondary project-external-action" href="${escapeHtml(action.url)}" target="_blank" rel="noopener noreferrer" data-project-external="${escapeHtml(action.kind)}">
+                ${externalActionIcon(action.kind)}
+                <span>${escapeHtml(action.label)}</span>
+            </a>
+        `;
+    }
+
     function normalizeProject(project, index) {
         const media = Array.isArray(project.media) ? project.media : [];
         const cover = media.find(item => item.isCover) || media[0] || {};
@@ -39,6 +94,9 @@
             technicalDecisions: Array.isArray(project.technicalDecisions) ? project.technicalDecisions : [],
             learnings: Array.isArray(project.learnings) ? project.learnings : [],
             stack: Array.isArray(project.stack) ? project.stack : [],
+            repositoryUrl: project.repositoryUrl || project.repository_url || '',
+            projectUrl: project.projectUrl || project.project_url || '',
+            projectUrlLabel: project.projectUrlLabel || project.project_url_label || '',
             media,
             cover
         });
@@ -113,6 +171,7 @@
         const coverSrc = cover.src || 'assets/images/projects/ruins/ruins-banner.jpeg';
         const facts = [
             getFact(project, 'Problema', 0),
+            getFact(project, 'Papel', 1),
             getFact(project, 'Decisão', 2),
             getFact(project, 'Resultado', 3)
         ];
@@ -141,10 +200,13 @@
                 <div class="spotlight-stack">
                     ${project.stack.slice(0, 5).map(item => `<span>${escapeHtml(item)}</span>`).join('')}
                 </div>
-                <button class="core-btn core-btn--primary spotlight-open" type="button" data-project-detail="${escapeHtml(project.slug)}">
-                    Abrir case
-                    <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </button>
+                <div class="spotlight-actions">
+                    <button class="core-btn core-btn--primary spotlight-open" type="button" data-project-detail="${escapeHtml(project.slug)}">
+                        Abrir estudo de caso
+                        <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                    ${renderProjectExternalAction(project)}
+                </div>
             </article>
         `;
 
@@ -232,6 +294,9 @@
                     </div>
                     <div class="tech-row project-detail-stack">
                         ${project.stack.map(item => `<span class="tech-tag">${escapeHtml(item)}</span>`).join('')}
+                    </div>
+                    <div class="project-detail-actions">
+                        ${renderProjectExternalAction(project)}
                     </div>
                 </section>
                 <section class="project-detail-media" aria-label="Galeria do projeto">
@@ -326,6 +391,7 @@
         openProjectDetail,
         openCurrentProjectDetail,
         setProjects,
-        selectProject
+        selectProject,
+        resolveExternalAction
     };
 })();

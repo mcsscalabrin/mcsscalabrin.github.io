@@ -7,6 +7,7 @@
         selectedContentKey: null,
         selectedExperienceId: null,
         selectedSkillId: null,
+        selectedCertificateId: null,
         selectedSocialId: null,
         authUserId: null,
         authSubscription: null
@@ -21,6 +22,7 @@
         content: 'Conteúdo',
         experiences: 'Experiências',
         skills: 'Skills',
+        certificates: 'Certificados',
         media: 'Mídia',
         kudos: 'Kudos'
     };
@@ -94,6 +96,7 @@
             })),
             experiences: fallback.experiences.map((item, index) => Object.assign({ id: `fallback-exp-${index}` }, item)),
             skills: fallback.skills.map((item, index) => Object.assign({ id: `fallback-skill-${index}` }, item)),
+            certificates: (fallback.certificates || []).map((item, index) => Object.assign({ id: `fallback-certificate-${index}` }, item)),
             socialLinks: fallback.socialLinks.map((item, index) => Object.assign({ id: `fallback-social-${index}` }, item)),
             kudosSummary: fallback.kudosSummary
         };
@@ -157,6 +160,7 @@
             ['Projetos', state.data.projects.length],
             ['Blocos', state.data.contentBlocks.length],
             ['Skills', state.data.skills.length],
+            ['Certificados', state.data.certificates.length],
             ['Kudos', state.data.kudosSummary.count || 0]
         ];
 
@@ -211,6 +215,9 @@
         form.elements.technicalDecisions.value = (project.technicalDecisions || []).join('\n');
         form.elements.learnings.value = (project.learnings || []).join('\n');
         form.elements.stack.value = (project.stack || []).join(', ');
+        form.elements.repositoryUrl.value = project.repositoryUrl || project.repository_url || '';
+        form.elements.projectUrl.value = project.projectUrl || project.project_url || '';
+        form.elements.projectUrlLabel.value = project.projectUrlLabel || project.project_url_label || '';
         form.elements.sortOrder.value = project.sortOrder || 0;
         form.elements.published.checked = project.published !== false;
 
@@ -247,6 +254,9 @@
             technicalDecisions: lines(form.elements.technicalDecisions.value),
             learnings: lines(form.elements.learnings.value),
             stack: csv(form.elements.stack.value),
+            repositoryUrl: form.elements.repositoryUrl.value.trim(),
+            projectUrl: form.elements.projectUrl.value.trim(),
+            projectUrlLabel: form.elements.projectUrlLabel.value.trim(),
             sortOrder: Number(form.elements.sortOrder.value || 0),
             published: form.elements.published.checked
         };
@@ -339,6 +349,7 @@
         form.elements.role.value = item.role || '';
         form.elements.period.value = item.period || '';
         form.elements.badge.value = item.badge || '';
+        form.elements.logo_storage_path.value = item.logoStoragePath || item.logo_storage_path || '';
         form.elements.highlights.value = JSON.stringify(item.highlights || [], null, 2);
         form.elements.stack.value = (item.stack || []).join(', ');
         form.elements.sort_order.value = item.sort_order || item.sortOrder || 0;
@@ -351,24 +362,42 @@
         if (!requireWrite()) return;
         try {
             const form = $('#experience-form');
+            let logoStoragePath = form.elements.logo_storage_path.value;
+            const logoFile = form.elements.logo_file.files[0];
+            if (logoFile) {
+                const upload = await window.Portfolio.cms.uploadExperienceLogo(logoFile, form.elements.company.value);
+                logoStoragePath = upload.storagePath;
+            }
             const item = {
                 id: form.elements.id.value || undefined,
                 company: form.elements.company.value,
                 role: form.elements.role.value,
                 period: form.elements.period.value,
                 badge: form.elements.badge.value,
+                logoStoragePath,
                 highlights: parseJson(form.elements.highlights.value, []),
                 stack: csv(form.elements.stack.value),
-                sort_order: Number(form.elements.sort_order.value || 0),
+                sortOrder: Number(form.elements.sort_order.value || 0),
                 published: form.elements.published.checked
             };
             const result = await window.Portfolio.cms.saveExperience(item);
             if (result.error) throw result.error;
             setStatus('Experiência salva.');
+            state.selectedExperienceId = result.data?.id || state.selectedExperienceId;
             await reloadAdminData();
         } catch (error) {
             setStatus(error.message);
         }
+    }
+
+    function newExperience() {
+        state.selectedExperienceId = null;
+        const form = $('#experience-form');
+        form.reset();
+        form.elements.id.value = '';
+        form.elements.logo_storage_path.value = '';
+        form.elements.published.checked = true;
+        renderExperiences();
     }
 
     async function deleteExperience() {
@@ -439,6 +468,94 @@
         }
         state.selectedSkillId = null;
         setStatus('Skill excluída.');
+        await reloadAdminData();
+    }
+
+    function renderCertificates() {
+        const list = $('#certificate-list');
+        if (!list || !state.data) return;
+        list.innerHTML = state.data.certificates.map(item => `
+            <button type="button" data-id="${escapeHtml(item.id)}" class="${state.selectedCertificateId === item.id ? 'active' : ''}">
+                <span class="admin-list-title">${escapeHtml(item.name)}</span>
+                <span class="admin-list-meta">${escapeHtml(item.issuer)}</span>
+            </button>
+        `).join('');
+        list.querySelectorAll('button').forEach(button => button.addEventListener('click', () => selectCertificate(button.dataset.id)));
+        if (!state.selectedCertificateId && state.data.certificates[0]) selectCertificate(state.data.certificates[0].id);
+    }
+
+    function selectCertificate(id) {
+        const item = state.data.certificates.find(row => String(row.id) === String(id));
+        if (!item) return;
+        state.selectedCertificateId = item.id;
+        const form = $('#certificate-form');
+        form.elements.id.value = item.id || '';
+        form.elements.name.value = item.name || '';
+        form.elements.issuer.value = item.issuer || '';
+        form.elements.issued_at.value = item.issuedAt || item.issued_at || '';
+        form.elements.credential_id.value = item.credentialId || item.credential_id || '';
+        form.elements.credential_url.value = item.credentialUrl || item.credential_url || '';
+        form.elements.description.value = item.description || '';
+        form.elements.skills.value = (item.skills || []).join('\n');
+        form.elements.image_storage_path.value = item.imageStoragePath || item.image_storage_path || '';
+        form.elements.sort_order.value = item.sortOrder || item.sort_order || 0;
+        form.elements.published.checked = item.published !== false;
+        renderCertificates();
+    }
+
+    function newCertificate() {
+        state.selectedCertificateId = null;
+        const form = $('#certificate-form');
+        form.reset();
+        form.elements.id.value = '';
+        form.elements.image_storage_path.value = '';
+        form.elements.published.checked = true;
+        renderCertificates();
+    }
+
+    async function saveCertificate(event) {
+        event.preventDefault();
+        if (!requireWrite()) return;
+        try {
+            const form = $('#certificate-form');
+            let storagePath = form.elements.image_storage_path.value;
+            const file = form.elements.image_file.files[0];
+            if (file) {
+                const upload = await window.Portfolio.cms.uploadCertificateImage(file);
+                storagePath = upload.storagePath;
+            }
+            const result = await window.Portfolio.cms.saveCertificate({
+                id: form.elements.id.value || undefined,
+                name: form.elements.name.value.trim(),
+                issuer: form.elements.issuer.value.trim(),
+                issuedAt: form.elements.issued_at.value,
+                credentialId: form.elements.credential_id.value.trim(),
+                credentialUrl: form.elements.credential_url.value.trim(),
+                description: form.elements.description.value.trim(),
+                skills: lines(form.elements.skills.value),
+                imageStoragePath: storagePath,
+                sortOrder: Number(form.elements.sort_order.value || 0),
+                published: form.elements.published.checked
+            });
+            if (result.error) throw result.error;
+            setStatus('Certificado salvo.');
+            state.selectedCertificateId = result.data?.id || state.selectedCertificateId;
+            await reloadAdminData();
+        } catch (error) {
+            setStatus(error.message);
+        }
+    }
+
+    async function deleteCertificate() {
+        if (!requireWrite() || !state.selectedCertificateId) return;
+        if (!window.confirm('Excluir este certificado?')) return;
+        const result = await window.Portfolio.cms.deleteRow('certificates', state.selectedCertificateId);
+        if (result.error) {
+            setStatus(result.error.message);
+            return;
+        }
+        state.selectedCertificateId = null;
+        setStatus('Certificado excluído.');
         await reloadAdminData();
     }
 
@@ -554,6 +671,7 @@
         renderContentBlocks();
         renderExperiences();
         renderSkills();
+        renderCertificates();
         renderSocials();
         renderMedia();
         renderKudos();
@@ -587,6 +705,17 @@
         }
 
         document.body.classList.remove('admin-fallback-mode');
+        const networkGate = await window.Portfolio.cms.checkAdminNetworkGate();
+        if (!networkGate.allowed) {
+            setLoginEnabled(false);
+            setAuthGate(null);
+            $('#network-gate-alert').hidden = false;
+            $('#admin-auth').hidden = false;
+            $('#admin-app').hidden = true;
+            setStatus(`Acesso negado (${networkGate.status || 403}).`);
+            return;
+        }
+        $('#network-gate-alert').hidden = true;
         refreshLoginHref();
         setLoginEnabled(true);
         setStatus('Verificando autenticação...');
@@ -663,12 +792,15 @@
         $('#save-content-btn')?.addEventListener('click', saveContentBlock);
         $('#experience-form')?.addEventListener('submit', saveExperience);
         $('#skill-form')?.addEventListener('submit', saveSkill);
+        $('#certificate-form')?.addEventListener('submit', saveCertificate);
         $('#social-form')?.addEventListener('submit', saveSocial);
         $('#delete-experience-btn')?.addEventListener('click', deleteExperience);
         $('#delete-skill-btn')?.addEventListener('click', deleteSkill);
+        $('#delete-certificate-btn')?.addEventListener('click', deleteCertificate);
         $('#delete-social-btn')?.addEventListener('click', deleteSocial);
-        $('#new-experience-btn')?.addEventListener('click', () => $('#experience-form').reset());
+        $('#new-experience-btn')?.addEventListener('click', newExperience);
         $('#new-skill-btn')?.addEventListener('click', () => $('#skill-form').reset());
+        $('#new-certificate-btn')?.addEventListener('click', newCertificate);
         $('#new-social-btn')?.addEventListener('click', () => $('#social-form').reset());
         $('#upload-media-btn')?.addEventListener('click', uploadMedia);
     }

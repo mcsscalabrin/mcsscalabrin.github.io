@@ -37,7 +37,8 @@
         textarea.select();
 
         try {
-            document.execCommand('copy');
+            const copied = document.execCommand('copy');
+            if (!copied) throw new Error('O navegador recusou o comando de cópia.');
             afterCopySuccess();
         } catch (error) {
             console.error('Falha ao copiar: ', error);
@@ -55,10 +56,7 @@
 
         navigator.clipboard.writeText(text)
             .then(afterCopySuccess)
-            .catch(error => {
-                console.error('Falha ao copiar: ', error);
-                showToast('Erro ao copiar e-mail.');
-            });
+            .catch(() => fallbackCopyToClipboard(text));
     }
 
     function copyEmail() {

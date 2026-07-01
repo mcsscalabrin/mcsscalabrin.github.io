@@ -1,0 +1,136 @@
+.about-hero {
+    min-height: calc(100vh - var(--header-height));
+    display: grid;
+    align-items: center;
+    padding: clamp(5rem, 9vw, 9rem) 0 4rem;
+}
+
+.about-section {
+    padding: var(--section-space) 0;
+}
+
+.about-section .about-intro {
+    margin-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+.about-intro {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+}
+
+.about-portrait {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+}
+
+.about-portrait img {
+    display: block;
+    width: 100%;
+    height: min(72vh, 720px);
+    object-fit: cover;
+    object-position: 50% 30%;
+}
+
+.about-copy {
+    max-width: 720px;
+}
+
+.about-label,
+.about-role {
+    color: var(--color-status);
+    font-family: var(--font-mono);
+}
+
+.about-label {
+    font-size: 0.78rem;
+}
+
+.about-copy h1 {
+    margin: 1rem 0 0.75rem;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.95;
+}
+
+.about-copy h3 {
+    margin: 0 0 0.75rem;
+    color: var(--text-primary);
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    line-height: 0.95;
+}
+
+.about-copy > p:not(.about-role) {
+    margin: 1.5rem 0 0;
+    color: var(--text-secondary);
+    font-size: clamp(1rem, 1.4vw, 1.14rem);
+    line-height: 1.8;
+}
+
+.about-facts dl {
+    margin: 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.about-section .about-facts {
+    margin-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+.about-facts dl > div {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.38fr) 1fr;
+    gap: 2rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.about-facts dt {
+    color: var(--color-status);
+    font-family: var(--font-mono);
+}
+
+.about-facts dd {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+.about-contact {
+    padding: clamp(5rem, 9vw, 8rem) 0;
+}
+
+.about-contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.nav-link.is-current {
+    color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+    .about-header-cta {
+        display: none;
+    }
+
+    .about-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .about-portrait {
+        max-width: 560px;
+    }
+}
+
+@media (max-width: 640px) {
+    .about-hero {
+        padding-top: 6rem;
+    }
+
+    .about-facts dl > div {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}

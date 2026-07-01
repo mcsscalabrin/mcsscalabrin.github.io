@@ -3,25 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfólio de Matheus Scalabrin — engenharia de software, automação e produto.">
-    <meta name="keywords" content="Matheus Scalabrin, Engenharia de Software, Automação, Produto, Itaú, SPTech, SRE, C#, Java, Python">
+    <meta name="description" content="Portfólio de Matheus Scalabrin, estudante de Sistemas de Informação na SPTech e estagiário de Engenharia de TI no Itaú Unibanco. Projetos em backend, automação, SRE, IoT e games.">
+    <meta name="keywords" content="Matheus Scalabrin, engenharia de software, backend, automação, APIs, RBAC, SRE, Itaú Unibanco, SPTech, Java, C#, Python, TypeScript, C++">
     <meta name="author" content="Matheus Scalabrin">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.com/mcsscalabrin">
-    <meta property="og:title" content="Matheus Scalabrin | Engenharia de Software">
-    <meta property="og:description" content="Engenharia de software com visão de produto, automação e sistemas de alta escala.">
-    <meta property="og:image" content="assets/images/projects/ruins/ruins-banner.jpeg">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:url" content="https://scalabrin.dev/">
+    <meta property="og:title" content="Matheus Scalabrin | Backend, Automação e Engenharia de Software">
+    <meta property="og:description" content="Projetos e experiência com APIs, RBAC, SRE, Power Platform, Java, C#, Python, TypeScript e C++.">
+    <meta property="og:image" content="assets/images/profile/matheus-scalabrin.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Matheus Scalabrin | Engenharia de Software">
-    <meta name="twitter:description" content="Engenharia de software com visão de produto, automação e sistemas de alta escala.">
-    <meta name="twitter:image" content="assets/images/projects/ruins/ruins-banner.jpeg">
+    <meta name="twitter:title" content="Matheus Scalabrin | Backend, Automação e Engenharia de Software">
+    <meta name="twitter:description" content="Projetos e experiência com APIs, RBAC, SRE, Power Platform, Java, C#, Python, TypeScript e C++.">
+    <meta name="twitter:image" content="assets/images/profile/matheus-scalabrin.jpg">
     <meta name="theme-color" content="#000000">
-    <title>Matheus Scalabrin | Engenharia de Software</title>
+    <script>document.documentElement.dataset.theme=localStorage.getItem('scalabrin-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');</script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Matheus Scalabrin",
+            "url": "https://scalabrin.dev/",
+            "image": "https://scalabrin.dev/assets/images/profile/matheus-scalabrin.jpg",
+            "jobTitle": "Estagiário de Engenharia de TI",
+            "worksFor": {
+                "@type": "Organization",
+                "name": "Itaú Unibanco"
+            },
+            "affiliation": {
+                "@type": "CollegeOrUniversity",
+                "name": "SPTech School"
+            },
+            "knowsAbout": ["Backend", "APIs REST", "RBAC", "SRE", "Power Platform", "Java", "C#", "Python", "TypeScript", "C++", "IoT", "Unity"],
+            "sameAs": [
+                "https://github.com/mcsscalabrin",
+                "https://www.linkedin.com/in/matheus-scalabrin/",
+                "https://www.instagram.com/scalabrin.dev/"
+            ]
+        }
+    </script>
+    <title>Matheus Scalabrin | Backend, Automação e Engenharia de Software</title>
+    <link rel="canonical" href="https://scalabrin.dev/">
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    <link rel="stylesheet" href="assets/styles/tokens.css">
+    <link rel="stylesheet" href="assets/styles/tokens.css?v=20260630b">
     <link rel="stylesheet" href="assets/styles/base.css">
-    <link rel="stylesheet" href="assets/styles/components.css">
-    <link rel="stylesheet" href="assets/styles/redesign.css">
+    <link rel="stylesheet" href="assets/styles/components.css?v=20260630b">
+    <link rel="stylesheet" href="assets/styles/redesign.css?v=20260701a">
+    <link rel="stylesheet" href="assets/styles/portfolio-v2.css?v=20260630b">
+    <link rel="stylesheet" href="assets/styles/about.css?v=20260630b">
+    <link rel="stylesheet" href="assets/styles/certificates.css?v=20260630d">
 </head>
 <body>
     <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
@@ -31,18 +61,28 @@
     <header class="site-header">
         <div class="header-container">
             <a class="logo" href="#hero" aria-label="Voltar ao início">
-                <span class="logo-dot"></span>
-                <span>scalabrin.dev</span>
+                <span class="logo-dot" aria-hidden="true"></span>
+                <span class="logo-wordmark">scalabrin.dev<span class="logo-cursor" aria-hidden="true">_</span></span>
             </a>
 
             <nav class="main-nav" aria-label="Navegação principal">
-                <a class="nav-link" href="#projects">Trabalho</a>
+                <a class="nav-link" href="#projects">Projetos</a>
                 <a class="nav-link" href="#experience">Experiência</a>
-                <a class="nav-link" href="#skills">Capacidades</a>
+                <a class="nav-link" href="#skills">Competências</a>
+                <a class="nav-link" href="#certificates" data-certificates-nav hidden>Certificados</a>
+                <a class="nav-link" href="#about">Sobre</a>
                 <a class="nav-link" href="#contact">Contato</a>
             </nav>
 
             <div class="header-actions">
+                <button class="preference-btn" type="button" data-theme-toggle aria-pressed="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+                    <span class="sr-only" data-preference-label>Tema claro</span>
+                </button>
+                <button class="preference-btn" type="button" data-sound-toggle aria-pressed="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m18 9 4 4M22 9l-4 4"/></svg>
+                    <span class="sr-only" data-preference-label>Som desligado</span>
+                </button>
                 <button class="cmd-k-btn" id="open-cmd-btn" type="button" aria-label="Abrir menu de comandos" aria-controls="cmd-k-palette" aria-expanded="false">
                     <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
                     <span>Explorar portfólio</span>
@@ -56,11 +96,12 @@
 
         <nav class="mobile-nav" id="mobile-nav" aria-label="Navegação mobile" hidden>
             <p class="mobile-nav-label">Navegação</p>
-            <a class="mobile-nav-link" href="#projects"><span>01</span>Trabalho</a>
+            <a class="mobile-nav-link" href="#projects"><span>01</span>Projetos</a>
             <a class="mobile-nav-link" href="#experience"><span>02</span>Experiência</a>
-            <a class="mobile-nav-link" href="#skills"><span>03</span>Capacidades</a>
-            <a class="mobile-nav-link" href="#kudos"><span>04</span>Kudos</a>
-            <a class="mobile-nav-link" href="#contact"><span>05</span>Contato</a>
+            <a class="mobile-nav-link" href="#skills"><span>03</span>Competências</a>
+            <a class="mobile-nav-link" href="#certificates" data-certificates-nav hidden><span>04</span>Certificados</a>
+            <a class="mobile-nav-link" href="#about"><span>05</span>Sobre</a>
+            <a class="mobile-nav-link" href="#contact"><span>07</span>Contato</a>
             <button class="mobile-command-trigger" type="button" data-open-command>
                 Abrir command palette <kbd>Ctrl K</kbd>
             </button>
@@ -72,71 +113,73 @@
             <div class="section-shell hero-shell">
                 <div class="hero-copy">
                     <p class="hero-name">Matheus Scalabrin</p>
-                    <h1 class="hero-headline">Engenharia de software que transforma complexidade em sistemas claros.</h1>
-                    <p class="hero-description">Backend corporativo, automação operacional e produto digital — com rigor técnico, contexto humano e visão de escala.</p>
+                    <h1 class="hero-headline">Engenharia de software para backend, automação e produtos digitais.</h1>
+                    <p class="hero-description">Sou estudante de Sistemas de Informação na SPTech e estagiário de Engenharia de TI no Itaú Unibanco. Trabalho com APIs, RBAC, SRE e automação de processos, além de projetos em C#, Java, Python, TypeScript e C++.</p>
                     <div class="hero-ctas">
                         <a class="core-btn core-btn--primary" href="#projects">
-                            Explorar trabalho
+                            Ver projetos técnicos
                             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                         </a>
                         <button class="core-btn core-btn--secondary" type="button" data-copy-email>
+                            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg>
                             <span>Copiar e-mail</span>
                         </button>
+                        <a class="core-btn core-btn--secondary" href="https://github.com/mcsscalabrin" target="_blank" rel="noopener noreferrer">
+                            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.54 1.03 1.54 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.55 9.55 0 0 1 12 6.84c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+                            <span>Ver GitHub</span>
+                        </a>
                     </div>
 
                     <div class="domain-proof" aria-live="polite">
-                        <p class="micro-label">Domínio ativo</p>
-                        <h2 id="domain-proof-title">Sistemas</h2>
-                        <p id="domain-proof-text">RBAC e micro-frontends em ecossistemas de alta escala.</p>
-                        <span id="domain-proof-evidence">Itaú Unibanco · SRE · APIs</span>
+                        <p class="micro-label">Atuação técnica</p>
+                        <h2 id="domain-proof-title">Backend e integrações</h2>
+                        <p id="domain-proof-text">APIs, controle de acesso baseado em papéis (RBAC) e micro-frontends.</p>
+                        <span id="domain-proof-evidence">Itaú Unibanco · SRE · Power Platform</span>
                     </div>
                 </div>
 
-                <div class="core-scene" aria-label="Scalabrin Core: escolha um domínio para atualizar a prova">
-                    <div class="core-glow" aria-hidden="true"></div>
-                    <div class="orbit orbit--outer" aria-hidden="true"></div>
-                    <div class="orbit orbit--inner" aria-hidden="true"></div>
-                    <div class="core-sphere" aria-hidden="true">
-                        <span class="core-sphere-brand">
-                            <small>Scalabrin</small>
-                            <strong>Core</strong>
-                        </span>
-                    </div>
-
-                    <button class="domain-node domain-node--systems is-active" type="button" data-domain="systems" aria-pressed="true">
-                        <span class="domain-node-dot"></span><span class="domain-node-label">Sistemas</span>
-                    </button>
-                    <button class="domain-node domain-node--automation" type="button" data-domain="automation" aria-pressed="false">
-                        <span class="domain-node-dot"></span><span class="domain-node-label">Automação</span>
-                    </button>
-                    <button class="domain-node domain-node--product" type="button" data-domain="product" aria-pressed="false">
-                        <span class="domain-node-dot"></span><span class="domain-node-label">Produto</span>
-                    </button>
+                <div class="hero-portrait">
+                    <img src="assets/images/profile/matheus-scalabrin.jpg" alt="Foto de Matheus Scalabrin" width="1153" height="2048">
                 </div>
             </div>
 
             <div class="section-shell trust-rail" aria-label="Credenciais e indicadores">
-                <div><strong>SPTech</strong><span>Sistemas de Informação</span></div>
-                <div><strong>Itaú</strong><span>Engenharia de TI</span></div>
-                <div><strong>BGS</strong><span>Produto apresentado</span></div>
-                <div><strong>03</strong><span>Cases selecionados</span></div>
-                <div><strong>2026</strong><span>Alta escala</span></div>
+                <div>
+                    <span class="trust-label">Formação</span>
+                    <strong>Sistemas de Informação</strong>
+                    <span>SPTech School</span>
+                </div>
+                <div>
+                    <span class="trust-label">Atuação atual</span>
+                    <strong>Estágio em Engenharia de TI</strong>
+                    <span>Itaú Unibanco</span>
+                </div>
+                <div>
+                    <span class="trust-label">Especialidade</span>
+                    <strong>Backend e automação</strong>
+                    <span>APIs · SRE · Observabilidade</span>
+                </div>
+                <div>
+                    <span class="trust-label">Portfólio técnico</span>
+                    <strong>3 estudos de caso</strong>
+                    <span>Software · IoT · Games</span>
+                </div>
             </div>
         </section>
 
         <section class="content-section projects-section" id="projects">
             <div class="section-shell">
                 <div class="section-heading">
-                    <div class="section-index"><span>01</span><i></i><span>Selected Work</span></div>
-                    <h2>Projetos que provam a prática.</h2>
-                    <p>Menos catálogo, mais decisão: problema, raciocínio e resultado em primeiro plano.</p>
+                    <div class="section-index"><span>01</span><i></i><span>Projetos selecionados</span></div>
+                    <h2>Projetos de software, IoT e games.</h2>
+                    <p>Três estudos de caso com problema, papel, decisões técnicas e resultado: Unity com C#, Arduino com C++ e uma aplicação web em TypeScript.</p>
                 </div>
 
                 <div class="project-tabs" role="tablist" aria-label="Projetos selecionados"></div>
                 <p class="sr-only" id="project-filter-status" aria-live="polite"></p>
                 <div class="project-spotlight" id="project-spotlight"></div>
                 <button class="project-random-link" id="random-project-btn" type="button">
-                    Surpreenda-me com outro projeto
+                    Ver outro projeto
                     <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
                 </button>
             </div>
@@ -145,9 +188,9 @@
         <section class="content-section experience-section" id="experience">
             <div class="section-shell">
                 <div class="section-heading">
-                    <div class="section-index"><span>02</span><i></i><span>Experience Graph</span></div>
-                    <h2>Experiência conectada a evidências.</h2>
-                    <p>Uma linha do tempo que liga contexto profissional, decisões técnicas e projetos.</p>
+                    <div class="section-index"><span>02</span><i></i><span>Experiência</span></div>
+                    <h2>Experiência em Engenharia de TI no Itaú Unibanco.</h2>
+                    <p>Atuação com controle de acesso (RBAC), micro-frontends, SRE, APIs e automação de processos em ambiente corporativo.</p>
                 </div>
                 <div class="experience-timeline" id="experience-timeline"></div>
             </div>
@@ -156,53 +199,108 @@
         <section class="content-section skills-section" id="skills">
             <div class="section-shell">
                 <div class="section-heading">
-                    <div class="section-index"><span>03</span><i></i><span>Capability Matrix</span></div>
-                    <h2>Competência só conta quando deixa rastro.</h2>
-                    <p>Capacidades associadas a resultados e cases concretos — sem nuvem de palavras.</p>
+                    <div class="section-index"><span>03</span><i></i><span>Competências técnicas</span></div>
+                    <h2>Stack técnica e áreas de atuação.</h2>
+                    <p>Java, C#, Python, JavaScript, TypeScript, SQL, Power Platform, Docker e Linux aplicados a backend, integrações, automação e produto.</p>
                 </div>
                 <div class="capability-matrix" id="capability-matrix"></div>
             </div>
         </section>
 
+        <section class="content-section certificates-section" id="certificates" hidden>
+            <div class="section-shell">
+                <div class="section-heading">
+                    <div class="section-index"><span>04</span><i></i><span>Certificados</span></div>
+                    <h2>Certificados e formação complementar.</h2>
+                    <p>Credenciais publicadas com instituição emissora, data, competências e link de verificação.</p>
+                </div>
+                <div class="certificates-list" id="certificates-list"></div>
+            </div>
+        </section>
+
+        <section class="content-section about-section" id="about">
+            <div class="section-shell">
+                <div class="section-heading">
+                    <div class="section-index"><span>05</span><i></i><span>Sobre</span></div>
+                    <h2>Quem é Matheus Scalabrin.</h2>
+                    <p>Formação, experiência atual e os assuntos técnicos que mais fazem parte do meu trabalho.</p>
+                </div>
+                <div class="about-intro">
+                    <figure class="about-portrait">
+                        <img src="assets/images/profile/matheus-scalabrin.jpg" alt="Foto de Matheus Scalabrin" width="1153" height="2048" loading="lazy" decoding="async">
+                    </figure>
+                    <div class="about-copy">
+                        <h3>Matheus Scalabrin</h3>
+                        <p class="about-role">Sistemas de Informação · Engenharia de TI · Desenvolvimento de software</p>
+                        <p>Sou estudante de Sistemas de Informação na SPTech e estagiário de Engenharia de TI no Itaú Unibanco. No trabalho e nos projetos, atuo com backend, automação, APIs, controle de acesso e confiabilidade de sistemas.</p>
+                        <p>Também desenvolvo projetos de produto digital, IoT e games. Gosto de entender o problema antes de escolher a tecnologia, registrar as decisões e deixar o código simples de operar e evoluir.</p>
+                    </div>
+                </div>
+                <div class="about-facts" aria-label="Resumo profissional">
+                    <dl>
+                        <div><dt>Stack principal</dt><dd>Java · C# · Python · JavaScript · SQL</dd></div>
+                        <div><dt>Interesses técnicos</dt><dd>Backend · APIs · automação · SRE · observabilidade</dd></div>
+                        <div><dt>Experiência atual</dt><dd>Engenharia de TI · Itaú Unibanco</dd></div>
+                        <div><dt>Formação</dt><dd>Sistemas de Informação · SPTech</dd></div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+
         <section class="content-section kudos-section" id="kudos">
             <div class="section-shell">
-                <div class="section-index"><span>04</span><i></i><span>Kudos</span></div>
+                <div class="section-index"><span>06</span><i></i><span>Feedback</span></div>
                 <div class="kudos-panel">
                     <div>
-                        <h2>Uma boa conversa também é um sinal.</h2>
-                        <p>Se algo aqui gerou uma ideia, deixe um kudos. É uma microinteração, não uma barreira para contato.</p>
+                        <h2>Este portfólio foi útil para você?</h2>
+                        <p>Deixe um kudos. É um feedback rápido e me ajuda a entender o que vale aprofundar por aqui.</p>
                         <button class="core-btn core-btn--primary" id="leave-kudos-btn" type="button">
-                            <span aria-hidden="true">✦</span> Deixar kudos
+                            <span class="kudos-button-icon" aria-hidden="true">✦</span>
+                            <span class="kudos-button-label">Deixar kudos</span>
                         </button>
                         <p class="kudos-status" id="kudos-status" aria-live="polite"></p>
                     </div>
-                    <div class="kudos-counter" aria-label="Kudos recebidos">
+                    <div class="kudos-counter" id="kudos-counter" aria-label="Kudos recebidos">
                         <strong id="kudos-count">0</strong>
                         <span>Kudos recebidos</span>
                         <div id="kudos-dots" class="kudos-dots" aria-hidden="true"></div>
                     </div>
                     <span id="hero-kudos-count" hidden>0</span>
+                    <div class="kudos-celebration" id="kudos-celebration" aria-hidden="true"></div>
                 </div>
             </div>
         </section>
 
         <section class="content-section contact-section" id="contact">
             <div class="section-shell">
-                <div class="section-index"><span>05</span><i></i><span>Contato</span></div>
+                <div class="section-index"><span>07</span><i></i><span>Contato</span></div>
                 <div class="contact-panel">
                     <div class="contact-copy">
-                        <span class="availability"><i></i>Disponível para conversas</span>
-                        <h2 class="contact-section-title">Vamos transformar uma complexidade real em produto claro?</h2>
-                        <p class="contact-section-subtitle">Projetos, oportunidades e boas conversas sobre engenharia, automação e produto.</p>
+                        <span class="availability"><i></i>Disponível para conversar</span>
+                        <h2 class="contact-section-title">Quer falar sobre engenharia de software, automação ou produto?</h2>
+                        <p class="contact-section-subtitle">Você pode me chamar por e-mail, LinkedIn ou Instagram. Para ver código e projetos, acesse meu GitHub.</p>
                     </div>
                     <div class="contact-actions">
                         <button class="email-copy" id="copy-email-btn" type="button">
-                            <span id="contact-email">mcsscalabrin@gmail.com</span>
+                            <span class="email-copy-address">
+                                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg>
+                                <span id="contact-email">mcsscalabrin@gmail.com</span>
+                            </span>
                             <strong id="copy-email-text">Copiar</strong>
                         </button>
                         <div class="contact-links">
-                            <a href="https://www.linkedin.com/in/matheus-scalabrin/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-                            <a href="https://github.com/mcsscalabrin" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+                            <a href="https://www.linkedin.com/in/matheus-scalabrin/" target="_blank" rel="noopener noreferrer" aria-label="Abrir LinkedIn de Matheus Scalabrin">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.5 8.25H3.25V20H6.5V8.25ZM4.88 3A1.88 1.88 0 1 0 4.88 6.75 1.88 1.88 0 0 0 4.88 3ZM20.75 13.26c0-3.54-1.89-5.19-4.42-5.19-2.04 0-2.95 1.12-3.46 1.91V8.25H9.62V20h3.25v-5.82c0-1.53.29-3.02 2.19-3.02 1.87 0 1.89 1.75 1.89 3.12V20h3.25l.55-6.74Z"/></svg>
+                                <span><strong>LinkedIn</strong><small>matheus-scalabrin</small></span>
+                            </a>
+                            <a href="https://github.com/mcsscalabrin" target="_blank" rel="noopener noreferrer" aria-label="Abrir GitHub de Matheus Scalabrin">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.54 1.03 1.54 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.55 9.55 0 0 1 12 6.84c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+                                <span><strong>GitHub</strong><small>mcsscalabrin</small></span>
+                            </a>
+                            <a href="https://www.instagram.com/scalabrin.dev/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram @scalabrin.dev">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                                <span><strong>Instagram</strong><small>@scalabrin.dev</small></span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -212,7 +310,7 @@
 
     <footer class="site-footer">
         <div class="section-shell footer-inner">
-            <div><strong>Matheus Scalabrin</strong><span>Engenharia de software · automação · produto</span></div>
+            <div><strong>Matheus Scalabrin</strong><span>Software bem explicado, do problema ao código.</span></div>
             <a href="#hero">Voltar ao topo ↑</a>
         </div>
     </footer>
@@ -228,10 +326,12 @@
             <div class="cmd-k-results">
                 <div class="cmd-k-group">
                     <div class="cmd-k-group-title">Navegar</div>
-                    <div class="cmd-k-item" data-action="scroll" data-target="projects"><span>Selected Work</span><kbd class="shortcut">01</kbd></div>
-                    <div class="cmd-k-item" data-action="scroll" data-target="experience"><span>Experience Graph</span><kbd class="shortcut">02</kbd></div>
-                    <div class="cmd-k-item" data-action="scroll" data-target="skills"><span>Capability Matrix</span><kbd class="shortcut">03</kbd></div>
-                    <div class="cmd-k-item" data-action="scroll" data-target="contact"><span>Contato direto</span><kbd class="shortcut">05</kbd></div>
+                    <div class="cmd-k-item" data-action="scroll" data-target="projects"><span>Projetos selecionados</span><kbd class="shortcut">01</kbd></div>
+                    <div class="cmd-k-item" data-action="scroll" data-target="experience"><span>Experiência</span><kbd class="shortcut">02</kbd></div>
+                    <div class="cmd-k-item" data-action="scroll" data-target="skills"><span>Competências técnicas</span><kbd class="shortcut">03</kbd></div>
+                    <div class="cmd-k-item" data-action="scroll" data-target="certificates" data-certificates-nav hidden><span>Certificados</span><kbd class="shortcut">04</kbd></div>
+                    <div class="cmd-k-item" data-action="scroll" data-target="about"><span>Sobre Matheus</span><kbd class="shortcut">05</kbd></div>
+                    <div class="cmd-k-item" data-action="scroll" data-target="contact"><span>Contato direto</span><kbd class="shortcut">07</kbd></div>
                 </div>
                 <div class="cmd-k-group">
                     <div class="cmd-k-group-title">Ações</div>
@@ -264,17 +364,18 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/scripts/config.js"></script>
     <script src="assets/scripts/cms-config.js?v=3"></script>
-    <script src="assets/scripts/cms-fallback-data.js"></script>
-    <script src="assets/scripts/cms-client.js?v=6"></script>
+    <script src="assets/scripts/cms-fallback-data.js?v=4"></script>
+    <script src="assets/scripts/cms-client.js?v=9"></script>
     <script src="assets/scripts/utils.js"></script>
     <script src="assets/scripts/toast.js"></script>
     <script src="assets/scripts/navigation.js"></script>
-    <script src="assets/scripts/contact.js"></script>
-    <script src="assets/scripts/kudos.js"></script>
-    <script src="assets/scripts/projects.js?v=3"></script>
-    <script src="assets/scripts/content.js?v=2"></script>
+    <script src="assets/scripts/contact.js?v=2"></script>
+    <script src="assets/scripts/kudos.js?v=2"></script>
+    <script src="assets/scripts/projects.js?v=4"></script>
+    <script src="assets/scripts/content.js?v=6"></script>
     <script src="assets/scripts/command-palette.js"></script>
-    <script src="assets/scripts/interactions.js"></script>
+    <script src="assets/scripts/interactions.js?v=2"></script>
+    <script src="assets/scripts/preferences.js"></script>
     <script src="assets/scripts/main.js?v=2"></script>
 </body>
 </html>

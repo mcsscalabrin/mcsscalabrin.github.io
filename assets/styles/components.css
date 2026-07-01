@@ -21,13 +21,13 @@
 }
 
 .btn-primary {
-    color: #000;
+    color: var(--color-on-accent);
     background: var(--text-primary);
     border: 1px solid var(--text-primary);
 }
 
 .btn-primary:hover {
-    background: #e4e4e7;
+    background: color-mix(in srgb, var(--text-primary) 88%, var(--color-bg));
 }
 
 .btn-secondary {
@@ -174,7 +174,7 @@
 .cmd-k-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.78);
+    background: var(--color-backdrop);
     backdrop-filter: blur(8px);
 }
 
@@ -185,7 +185,7 @@
     overflow: hidden;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    background: rgba(9, 9, 11, 0.94);
+    background: var(--color-dialog);
     box-shadow: var(--shadow-modal);
 }
 
@@ -267,7 +267,7 @@
 .cmd-k-item:hover,
 .cmd-k-item.active {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.055);
+    background: var(--color-surface-hover);
 }
 
 .toast-container {
@@ -282,7 +282,7 @@
 .toast {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    background: rgba(9, 9, 11, 0.95);
+    background: var(--color-dialog);
     color: var(--text-primary);
     box-shadow: var(--shadow-soft);
     padding: 10px 14px;
