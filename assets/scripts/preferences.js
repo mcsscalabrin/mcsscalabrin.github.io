@@ -15,11 +15,15 @@
     }
 
     function updateThemeButtons(theme) {
+        const lit = theme === 'light';
         document.querySelectorAll('[data-theme-toggle]').forEach(button => {
-            const next = theme === 'dark' ? 'claro' : 'escuro';
-            button.setAttribute('aria-label', `Ativar tema ${next}`);
-            button.setAttribute('aria-pressed', String(theme === 'light'));
-            button.querySelector('[data-preference-label]')?.replaceChildren(theme === 'dark' ? 'Tema claro' : 'Tema escuro');
+            button.setAttribute('aria-label', lit ? 'Apagar o saguão' : 'Acender o saguão');
+            button.setAttribute('aria-pressed', String(lit));
+            button.querySelector('[data-preference-label]')?.replaceChildren(lit ? 'Apagar o saguão' : 'Acender o saguão');
+            const night = button.querySelector('[data-icon-night]');
+            const day = button.querySelector('[data-icon-day]');
+            if (night) night.hidden = lit;
+            if (day) day.hidden = !lit;
         });
     }
 
@@ -36,36 +40,53 @@
 
     function updateSoundButtons() {
         document.querySelectorAll('[data-sound-toggle]').forEach(button => {
-            button.setAttribute('aria-label', soundEnabled ? 'Desativar sons da interface' : 'Ativar sons da interface');
+            button.setAttribute('aria-label', soundEnabled ? 'Desligar o som do painel' : 'Ligar o som do painel');
             button.setAttribute('aria-pressed', String(soundEnabled));
-            button.querySelector('[data-preference-label]')?.replaceChildren(soundEnabled ? 'Som ligado' : 'Som desligado');
+            button.querySelector('[data-preference-label]')?.replaceChildren(soundEnabled ? 'Som do painel ligado' : 'Som do painel desligado');
+            const muted = button.querySelector('[data-icon-muted]');
+            const audible = button.querySelector('[data-icon-audible]');
+            if (muted) muted.hidden = soundEnabled;
+            if (audible) audible.hidden = !soundEnabled;
         });
     }
 
-    function playClick(kind) {
+    function clack(kind) {
         if (!soundEnabled) return;
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         if (!AudioContext) return;
         audioContext = audioContext || new AudioContext();
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
+
         const now = audioContext.currentTime;
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(kind === 'success' ? 720 : 520, now);
-        oscillator.frequency.exponentialRampToValueAtTime(kind === 'success' ? 980 : 420, now + 0.045);
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(0.035, now + 0.005);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
-        oscillator.connect(gain).connect(audioContext.destination);
-        oscillator.start(now);
-        oscillator.stop(now + 0.065);
+        const duration = 0.05;
+        const frames = Math.floor(audioContext.sampleRate * duration);
+        const buffer = audioContext.createBuffer(1, frames, audioContext.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < frames; i += 1) {
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / frames, 3);
+        }
+
+        const source = audioContext.createBufferSource();
+        source.buffer = buffer;
+
+        const band = audioContext.createBiquadFilter();
+        band.type = 'bandpass';
+        band.frequency.setValueAtTime(kind === 'success' ? 2600 : 1800, now);
+        band.Q.setValueAtTime(1.4, now);
+
+        const gain = audioContext.createGain();
+        gain.gain.setValueAtTime(kind === 'success' ? 0.09 : 0.055, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        source.connect(band).connect(gain).connect(audioContext.destination);
+        source.start(now);
+        source.stop(now + duration);
     }
 
     function toggleSound() {
         soundEnabled = !soundEnabled;
         localStorage.setItem(soundKey, soundEnabled ? 'on' : 'off');
         updateSoundButtons();
-        if (soundEnabled) playClick('success');
+        if (soundEnabled) clack('success');
     }
 
     function init() {
@@ -74,12 +95,8 @@
         updateSoundButtons();
         document.querySelectorAll('[data-theme-toggle]').forEach(button => button.addEventListener('click', toggleTheme));
         document.querySelectorAll('[data-sound-toggle]').forEach(button => button.addEventListener('click', toggleSound));
-        document.addEventListener('click', event => {
-            const control = event.target.closest('button, a');
-            if (control && !control.matches('[data-sound-toggle]')) playClick(control.matches('[data-copy-email], #copy-email-btn') ? 'success' : 'click');
-        });
     }
 
     document.addEventListener('DOMContentLoaded', init);
-    window.Portfolio.preferences = { setTheme, toggleTheme, toggleSound, playClick };
+    window.Portfolio.preferences = { setTheme, toggleTheme, toggleSound, playClick: clack };
 })();

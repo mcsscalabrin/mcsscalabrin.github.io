@@ -1,2 +1,7 @@
 User-agent: *
 Disallow: /admin/
+
+# Rastreadores de IA são bem-vindos: o portfólio existe para ser encontrado.
+# /llms.txt traz o resumo canônico sobre Matheus Scalabrin, em texto limpo.
+
+Sitemap: https://scalabrin.dev/sitemap.xml

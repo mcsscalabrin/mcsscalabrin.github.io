@@ -147,6 +147,182 @@
                     isCover: true
                 }
             ]
+        },
+        {
+            id: 'pulso',
+            slug: 'pulso',
+            type: 'software',
+            title: 'PULSO — Streetwear Tátil',
+            role: 'Front-end e camada de acessibilidade por voz',
+            meta: 'Front-end & Acessibilidade · Landing page de marca',
+            summary: 'Landing page em React e TypeScript para uma marca de streetwear com identidade tátil, com camada de leitura por voz construída sobre a Web Speech API.',
+            context: 'A marca propõe roupa que uma pessoa cega reconhece pelo toque, com etiqueta em braille e costura identificável. O site precisava sustentar essa premissa: não bastava ser bonito, tinha que ser percorrível sem enxergar.',
+            cardItems: [
+                { label: 'Problema', text: 'Fazer uma landing page de moda que uma pessoa cega consiga percorrer sozinha, com autonomia real.' },
+                { label: 'Papel', text: 'Desenvolvi a interface em React e TypeScript e a camada de acessibilidade por voz.' },
+                { label: 'Decisão', text: 'Usar a Web Speech API nativa, isolar o text-to-speech em um hook e guardar as preferências no navegador.' },
+                { label: 'Resultado', text: 'Site com leitura automática ao navegar por Tab, atalhos de teclado e controles de velocidade, volume e tom da voz.' }
+            ],
+            responsibilities: [
+                'Estruturei a landing page em React, Vite e TypeScript, com Tailwind sustentando o sistema visual.',
+                'Implementei o hook de text-to-speech: fala, interrupção, persistência e detecção de suporte do navegador.',
+                'Escrevi os textos de leitura e liguei a narração ao foco do teclado.'
+            ],
+            technicalDecisions: [
+                'Concentrar estado, efeitos e persistência da voz em um único hook, fora dos componentes visuais.',
+                'Manter uma região ARIA viva atualizada mesmo com a voz desligada, para não excluir quem já usa leitor de tela próprio.',
+                'Salvar velocidade, volume e tom no localStorage para a configuração sobreviver ao recarregamento.'
+            ],
+            learnings: [
+                'Acessibilidade decidida no início do design custa menos do que adaptação no fim.',
+                'O navegador bloqueia áudio antes da primeira interação — a interface precisa de um caminho alternativo.',
+                'Voz é preferência pessoal: velocidade, volume e tom pertencem a quem ouve, não a quem programa.'
+            ],
+            stack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Web Speech API'],
+            repositoryUrl: '',
+            projectUrl: '',
+            projectUrlLabel: '',
+            media: [
+                {
+                    src: 'assets/images/projects/pulso/pulso-cover.jpg',
+                    alt: 'Home da PULSO em fundo preto, com a marca escrita em braille acima do título Moda que você sente',
+                    caption: 'A marca aparece primeiro em braille, antes do nome em letras.',
+                    tone: 'color',
+                    isCover: true
+                }
+            ]
+        },
+        {
+            id: 'tripflow',
+            slug: 'tripflow',
+            type: 'software',
+            title: 'TripFlow',
+            role: 'Arquitetura do app e algoritmo de acerto de contas',
+            meta: 'Mobile · App de viagem em grupo',
+            summary: 'App em React Native e TypeScript para organizar viagem em grupo — roteiro, checklist e despesas — que reduz o acerto de contas à menor lista possível de transferências.',
+            context: 'Dividir gasto em grupo termina em uma tabela confusa de quem deve a quem. O app calcula o saldo de cada pessoa e cruza devedores com credores até zerar, entregando apenas os pagamentos que realmente precisam acontecer.',
+            cardItems: [
+                { label: 'Problema', text: 'Fechar as contas de uma viagem em grupo sem uma lista longa de pagamentos cruzados.' },
+                { label: 'Papel', text: 'Defini a arquitetura do app e implementei o algoritmo de acerto de contas.' },
+                { label: 'Decisão', text: 'Calcular saldos em centavos e cruzar devedores e credores até quitar ambos a cada etapa.' },
+                { label: 'Resultado', text: 'MVP local com roteiro, checklist, despesas e acerto de contas, sem back-end nem cadastro.' }
+            ],
+            responsibilities: [
+                'Separei o app em contexto de estado, telas, serviço de persistência e utilitários de domínio.',
+                'Implementei o cálculo de saldos e a redução para a menor lista de transferências diretas.',
+                'Persisti viagens, participantes, atividades, tarefas e despesas no AsyncStorage do dispositivo.'
+            ],
+            technicalDecisions: [
+                'Trabalhar em centavos com inteiros, para dinheiro não acumular erro de ponto flutuante.',
+                'Distribuir o resto da divisão entre os primeiros participantes, para a soma das parcelas fechar com o total.',
+                'Manter tudo no dispositivo no MVP, sem API nem autenticação, para validar o produto antes da infraestrutura.'
+            ],
+            learnings: [
+                'Dinheiro em ponto flutuante quebra em silêncio; inteiro em centavos é a correção mais barata.',
+                'Um MVP local entrega valor antes de qualquer decisão de back-end.',
+                'Isolar a regra em função pura deixa o domínio verificável sem subir a interface.'
+            ],
+            stack: ['React Native', 'Expo', 'TypeScript', 'AsyncStorage', 'Mobile'],
+            repositoryUrl: '',
+            projectUrl: '',
+            projectUrlLabel: '',
+            media: [
+                {
+                    src: 'assets/images/projects/tripflow/tripflow-cover.jpg',
+                    alt: 'Tela de gastos do TripFlow com o total da viagem e a lista de liquidações diretas entre os participantes',
+                    caption: 'Quatro despesas viram três transferências diretas.',
+                    tone: 'color',
+                    isCover: true
+                }
+            ]
+        },
+        {
+            id: 'sensivacc',
+            slug: 'sensivacc',
+            type: 'iot',
+            title: 'SensiVacc',
+            role: 'Back-end, banco de dados e integração do sensor',
+            meta: 'IoT & Dados · Projeto de Pesquisa e Inovação, Grupo 09',
+            summary: 'Plataforma de monitoramento térmico no transporte de vacinas: sensor Arduino, API em Node e MySQL, com dashboard que acusa quando a carga sai da faixa de 2 °C a 8 °C.',
+            context: 'Vacina fora da faixa de 2 °C a 8 °C perde eficácia sem qualquer sinal visível na embalagem. O grupo precisava transformar a leitura de um sensor em histórico consultável e em alerta que chegasse a quem opera o transporte.',
+            cardItems: [
+                { label: 'Problema', text: 'Detectar a quebra da cadeia de frio no transporte de vacinas antes que a carga se perca.' },
+                { label: 'Papel', text: 'Trabalhei no back-end em Node e MySQL, na modelagem das tabelas e na integração das leituras do sensor.' },
+                { label: 'Decisão', text: 'Dividir o servidor em controllers, models e rotas e gravar cada medida com data e hora, em vez de exibir só o valor atual.' },
+                { label: 'Resultado', text: 'Caminho completo do sensor ao dashboard, com histórico por veículo e alertas de temperatura fora da faixa.' }
+            ],
+            responsibilities: [
+                'Implementei controllers, models e rotas em Express para medidas, avisos, empresas e usuários.',
+                'Modelei as tabelas em MySQL e escrevi o script de criação usado por todo o grupo.',
+                'Liguei a leitura serial do Arduino ao back-end e os dados persistidos ao dashboard.'
+            ],
+            technicalDecisions: [
+                'Manter o padrão controller / model / rota para cinco pessoas mexerem no mesmo código sem colisão.',
+                'Persistir cada medida com data e hora, permitindo consultar histórico e não apenas o instante atual.',
+                'Fixar a faixa segura de 2 °C a 8 °C no firmware e no dashboard, para o alerta ter o mesmo critério nas duas pontas.'
+            ],
+            learnings: [
+                'Um dado de sensor só vira decisão quando tem histórico e um limite explícito.',
+                'Combinar a divisão de camadas antes de escrever código evita conflito em equipe.',
+                'O rodízio de Scrum Master e Product Owner obriga cada pessoa a entender o projeto inteiro.'
+            ],
+            stack: ['Node.js', 'Express', 'MySQL', 'Arduino', 'Chart.js'],
+            repositoryUrl: 'https://github.com/mcsscalabrin/Grupo09-PI',
+            projectUrl: '',
+            projectUrlLabel: '',
+            media: [
+                {
+                    src: 'assets/images/projects/sensivacc/sensivacc-cover.jpg',
+                    alt: 'Home da SensiVacc com o título Bem vindo à SensiVacc e o bloco Nossos valores',
+                    caption: 'Site institucional que dá entrada no painel de monitoramento.',
+                    tone: 'color',
+                    isCover: true
+                }
+            ]
+        },
+        {
+            id: 'beach-tennis',
+            slug: 'beach-tennis',
+            type: 'software',
+            title: 'Conheça o Mundo do Beach Tennis',
+            role: 'Projeto individual full stack, do banco à interface',
+            meta: 'Full Stack · Projeto Individual, SPTech',
+            summary: 'Site full stack sobre Beach Tennis em Node.js, Express e MySQL, com ranking de atletas, quiz pontuado, cadastro de usuários e fórum.',
+            context: 'A informação sobre o esporte em português está espalhada e incompleta. O projeto reúne história, regras e ranking em um lugar só e usa o quiz para dar ao visitante um motivo para voltar.',
+            cardItems: [
+                { label: 'Problema', text: 'Reunir em português a informação dispersa sobre Beach Tennis e dar ao visitante um motivo para voltar.' },
+                { label: 'Papel', text: 'Fiz o projeto sozinho — banco, API, telas e conteúdo.' },
+                { label: 'Decisão', text: 'Organizar o servidor em controller, model e rota por domínio, com o quiz gravando cada tentativa no banco.' },
+                { label: 'Resultado', text: 'Site com autenticação, quiz pontuado, ranking de atletas e fórum, rodando sobre MySQL.' }
+            ],
+            responsibilities: [
+                'Modelei o banco em MySQL e escrevi o script de criação das tabelas.',
+                'Implementei rotas e controllers para usuários, quiz, estatísticas, atletas e vídeos.',
+                'Construí as telas, o quiz e a lógica de sessão no navegador.'
+            ],
+            technicalDecisions: [
+                'Um controller e um model por domínio, em vez de concentrar tudo no arquivo do servidor.',
+                'Registrar acertos e erros de cada tentativa do quiz, para gerar estatística depois.',
+                'Validar os campos obrigatórios na rota antes de a requisição chegar ao banco.'
+            ],
+            learnings: [
+                'Percorrer sozinho o caminho todo, do banco à tela, mostra onde cada camada realmente começa.',
+                'Guardar a tentativa, e não só o resultado, abre espaço para estatísticas que não estavam no plano inicial.',
+                'Conteúdo é parte do produto: sem texto e imagem, a funcionalidade não se sustenta.'
+            ],
+            stack: ['Node.js', 'Express', 'MySQL', 'JavaScript', 'HTML/CSS'],
+            repositoryUrl: 'https://github.com/mcsscalabrin/projeto-individual-1sisa',
+            projectUrl: '',
+            projectUrlLabel: '',
+            media: [
+                {
+                    src: 'assets/images/projects/beach-tennis/beach-tennis-cover.jpg',
+                    alt: 'Home do site com o título Conheça o Mundo do Beach Tennis e o bloco de login e cadastro',
+                    caption: 'Entrada do site, com acesso ao quiz e ao ranking.',
+                    tone: 'color',
+                    isCover: true
+                }
+            ]
         }
     ];
 
@@ -171,8 +347,8 @@
                 email: 'mcsscalabrin@gmail.com'
             },
             seo: {
-                title: 'Matheus Scalabrin | Backend, Automação e Engenharia de Software',
-                description: 'Portfólio de Matheus Scalabrin, estudante de Sistemas de Informação na SPTech e estagiário de Engenharia de TI no Itaú Unibanco. Projetos em backend, automação, SRE, IoT e games.',
+                title: 'Matheus Scalabrin | Backend, Automação e Confiabilidade',
+                description: 'Matheus Scalabrin é engenheiro de software e resolvedor de problemas. Estagiário de Engenharia de TI no Itaú Unibanco, com RBAC, SRE, APIs e automação em produção — e casos autorais que vão de jogo publicado a IoT, mobile e acessibilidade.',
                 image: 'assets/images/profile/matheus-scalabrin.jpg'
             }
         },

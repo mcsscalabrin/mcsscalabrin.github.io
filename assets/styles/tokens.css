@@ -1,81 +1,130 @@
-/* --------------------------------------------------------------------------
-   Design System Tokens
-   -------------------------------------------------------------------------- */
+@font-face {
+    font-family: 'Archivo';
+    font-style: normal;
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    font-display: swap;
+    src: url('../fonts/archivo-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Archivo';
+    font-style: normal;
+    font-weight: 100 900;
+    font-stretch: 62% 125%;
+    font-display: swap;
+    src: url('../fonts/archivo-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Arial, sans-serif;
-    --font-display: var(--font-sans);
-    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    color-scheme: dark;
 
-    --color-bg: #000000;
-    --color-bg-soft: #050505;
-    --color-surface: #09090b;
-    --color-surface-raised: #101012;
-    --color-surface-hover: #151518;
-    --color-border: rgba(255, 255, 255, 0.08);
-    --color-border-subtle: rgba(255, 255, 255, 0.045);
-    --color-border-strong: rgba(255, 255, 255, 0.16);
-    --color-focus: #fafafa;
-    --color-status: #22c55e;
-    --color-on-accent: #020703;
-    --color-header: rgba(0, 0, 0, 0.82);
-    --color-grid-line: rgba(255, 255, 255, 0.035);
-    --color-progress-track: rgba(255, 255, 255, 0.04);
-    --color-keyboard: #070708;
-    --color-backdrop: rgba(0, 0, 0, 0.84);
-    --color-dialog: #08080a;
-    --color-mobile-nav: #030304;
-    --color-media-surface: #0b0b0d;
-    --color-timeline-ring: #000000;
-    --color-contact-control: rgba(0, 0, 0, 0.74);
-    --color-contact-link: rgba(0, 0, 0, 0.34);
-    --color-panel-translucent: rgba(9, 9, 11, 0.84);
-    --contact-background:
-        radial-gradient(circle at 88% 38%, rgba(34, 197, 94, 0.24), transparent 32%),
-        linear-gradient(135deg, #06120a 0%, #07190d 50%, #041008 100%);
+    --flap-face: #0d0d0f;
+    --flap-face-lit: #17171a;
+    --flap-seam: #000000;
+    --flap-edge: #26272c;
+    --flap-white: #f2f2f2;
 
-    --text-primary: #fafafa;
-    --text-secondary: #b4b4bb;
-    --text-muted: #73737d;
-    --text-faint: #4d4d56;
+    --hall: #131519;
+    --hall-deep: #0a0b0d;
+    --platform: #1c1f25;
+    --platform-lit: #23272f;
 
-    --bg-color: var(--color-bg);
-    --card-bg: rgba(9, 9, 11, 0.78);
-    --card-bg-hover: rgba(16, 16, 18, 0.94);
-    --card-border: var(--color-border-subtle);
-    --card-border-hover: var(--color-border);
+    --steel: #b6bbc2;
+    --steel-dark: #7d838c;
+    --steel-deep: #4a4f57;
+    --steel-line: #363b43;
+    --steel-hair: #2a2e35;
 
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 0.75rem;
-    --space-4: 1rem;
-    --space-5: 1.25rem;
-    --space-6: 1.5rem;
-    --space-8: 2rem;
-    --space-10: 2.5rem;
-    --space-12: 3rem;
-    --space-16: 4rem;
-    --space-20: 5rem;
-    --space-24: 6rem;
+    --amber: #ffb400;
+    --amber-soft: #ffd166;
+    --amber-dim: rgba(255, 180, 0, 0.16);
+    --amber-ink: #241800;
+    --red: #d32f2f;
+    --red-text: #ef5350;
+    --lamp-live: #4ec26a;
 
-    --radius-xs: 3px;
-    --radius-sm: 4px;
-    --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-xl: 8px;
+    --ink: #f2f2f2;
+    --ink-soft: #bcc1c9;
+    --ink-quiet: #949ba6;
+    --ink-inverse: #0d0d0f;
 
-    --shadow-soft: 0 16px 50px rgba(0, 0, 0, 0.42);
-    --shadow-modal: 0 30px 90px rgba(0, 0, 0, 0.72);
-    --shadow-spotlight: 0 34px 90px rgba(0, 0, 0, 0.38);
+    --font: 'Archivo', 'Segoe UI', system-ui, -apple-system, sans-serif;
 
-    --motion-fast: 140ms cubic-bezier(0.25, 0.8, 0.25, 1);
-    --motion-normal: 260ms cubic-bezier(0.25, 0.8, 0.25, 1);
-    --motion-slow: 520ms cubic-bezier(0.25, 0.8, 0.25, 1);
-    --transition-fast: var(--motion-fast);
-    --transition-normal: var(--motion-normal);
-    --transition-slow: var(--motion-slow);
+    --wd-flap: 76;
+    --wd-narrow: 86;
+    --wd-normal: 100;
+    --wd-wide: 116;
 
-    --container: 1100px;
-    --container-narrow: 980px;
-    --header-height: 72px;
+    --gap-2xs: 0.25rem;
+    --gap-xs: 0.5rem;
+    --gap-sm: 0.75rem;
+    --gap-md: 1.25rem;
+    --gap-lg: 2rem;
+    --gap-xl: 3.25rem;
+    --gap-2xl: 5rem;
+    --gap-3xl: 7.5rem;
+
+    --shell: 1340px;
+    --pad-x: clamp(1.15rem, 4vw, 3.25rem);
+    --header-h: 68px;
+
+    --radius-flap: 3px;
+    --radius-frame: 7px;
+
+    --lift-1: 0 1px 2px rgba(0, 0, 0, 0.55), 0 4px 10px rgba(0, 0, 0, 0.34);
+    --lift-2: 0 2px 4px rgba(0, 0, 0, 0.5), 0 14px 32px rgba(0, 0, 0, 0.44);
+    --lift-3: 0 6px 12px rgba(0, 0, 0, 0.44), 0 34px 68px rgba(0, 0, 0, 0.5);
+
+    --brushed: linear-gradient(180deg, #d4d9df 0%, #9ba1aa 17%, #6e747d 52%, #888e97 79%, #bcc1c8 100%);
+    --brushed-dim: linear-gradient(180deg, #6d737c 0%, #4d525b 40%, #3d424b 70%, #575d66 100%);
+
+    --grain: rgba(255, 255, 255, 0.022);
+    --grain-edge: rgba(255, 255, 255, 0.1);
+    --grain-rail: rgba(255, 255, 255, 0.16);
+
+    --ease-flap: cubic-bezier(0.2, 0.9, 0.25, 1);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root[data-theme='light'] {
+    --hall: #d9dce1;
+    --hall-deep: #c7ccd3;
+    --platform: #e6e9ed;
+    --platform-lit: #f1f3f6;
+    --steel-hair: #b3b9c2;
+    --steel-line: #9aa1ac;
+
+    --ink: #16181c;
+    --ink-soft: #3d434c;
+
+    --ink-quiet: #4a5158;
+
+    --grain: rgba(0, 0, 0, 0.032);
+    --grain-edge: rgba(0, 0, 0, 0.1);
+    --grain-rail: rgba(255, 255, 255, 0.85);
+}
+
+:root[data-theme='light'] .board,
+:root[data-theme='light'] .panel-face,
+:root[data-theme='light'] .departures,
+:root[data-theme='light'] .ticket,
+:root[data-theme='light'] .route,
+:root[data-theme='light'] .capabilities,
+:root[data-theme='light'] .credentials,
+:root[data-theme='light'] .finder-panel,
+:root[data-theme='light'] .case-dialog,
+:root[data-theme='light'] .mobile-nav {
+    --ink: #f2f2f2;
+    --ink-soft: #bcc1c9;
+    --ink-quiet: #949ba6;
+    --platform: #1c1f25;
+    --platform-lit: #23272f;
+    --steel-hair: #2a2e35;
+    --steel-line: #363b43;
+
+    color: var(--ink);
 }
 

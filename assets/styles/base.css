@@ -1,6 +1,3 @@
-/* --------------------------------------------------------------------------
-   Reset and Base
-   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -9,19 +6,19 @@
 
 html {
     scroll-behavior: smooth;
-    background: var(--color-bg);
+    background: var(--hall-deep);
+    scroll-padding-top: calc(var(--header-h) + 1rem);
 }
 
 body {
     min-height: 100vh;
     margin: 0;
-    background:
-        radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.045), transparent 32rem),
-        linear-gradient(180deg, #000 0%, #030303 42%, #000 100%);
-    color: var(--text-primary);
-    font-family: var(--font-sans);
+    background: var(--hall);
+    color: var(--ink);
+    font-family: var(--font);
     font-size: 16px;
-    line-height: 1.65;
+    font-variation-settings: 'wdth' 100;
+    line-height: 1.6;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
@@ -35,6 +32,10 @@ svg {
     display: block;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -44,20 +45,33 @@ button,
 input,
 textarea {
     font: inherit;
+    font-variation-settings: inherit;
 }
 
 button {
     border: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+dl,
+dd {
+    margin: 0;
+}
+
 ::selection {
-    background: rgba(250, 250, 250, 0.2);
-    color: var(--text-primary);
+    background: var(--amber);
+    color: var(--amber-ink);
 }
 
 :focus-visible {
-    outline: 2px solid var(--color-focus);
+    outline: 2px solid var(--amber);
     outline-offset: 3px;
+    border-radius: 2px;
 }
 
 .sr-only {
@@ -72,15 +86,21 @@ button {
     border: 0;
 }
 
-.grid-overlay {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), transparent 70%);
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--pad-x);
+    z-index: 200;
+    padding: 0.7rem 1.1rem;
+    background: var(--amber);
+    color: var(--amber-ink);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: top 160ms var(--ease-out);
 }
 
+.skip-link:focus-visible {
+    top: 0.75rem;
+}

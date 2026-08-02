@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="">
+  <!--
+    Lâmpada de linha: matriz de LEDs âmbar, cada um com halo próprio e
+    reflexo especular. Ladrilha por trás dos rótulos de estado vivo.
+    Elementos contáveis num grid — vetor.
+  -->
+  <defs>
+    <radialGradient id="led" cx="0.36" cy="0.32" r="0.72">
+      <stop offset="0" stop-color="#fff0c2"/>
+      <stop offset="0.3" stop-color="#ffc53d"/>
+      <stop offset="0.72" stop-color="#d18a00"/>
+      <stop offset="1" stop-color="#5c3c00"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffb400" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffb400" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="matrix" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="5.6" fill="url(#halo)"/>
+      <circle cx="6" cy="6" r="3.5" fill="url(#led)"/>
+      <circle cx="4.9" cy="4.8" r="1.05" fill="#fff8e0" opacity="0.72"/>
+    </pattern>
+  </defs>
+  <rect width="48" height="48" fill="#140d00"/>
+  <rect width="48" height="48" fill="url(#matrix)"/>
+</svg>

@@ -12,6 +12,17 @@
     let overlay = null;
     let lastFocusedElement = null;
     let pointerStartX = null;
+    let pointerStartY = null;
+
+    const COVER_DIMENSIONS = {
+        'assets/images/projects/ruins/ruins-banner.jpeg': { width: 1920, height: 1080 },
+        'assets/images/plant_moisture_monitor.jpg': { width: 1024, height: 1024 },
+        'assets/images/pc_builder_app.jpg': { width: 1024, height: 1024 },
+        'assets/images/projects/pulso/pulso-cover.jpg': { width: 1600, height: 900 },
+        'assets/images/projects/tripflow/tripflow-cover.jpg': { width: 1600, height: 900 },
+        'assets/images/projects/sensivacc/sensivacc-cover.jpg': { width: 1600, height: 900 },
+        'assets/images/projects/beach-tennis/beach-tennis-cover.jpg': { width: 1600, height: 900 }
+    };
 
     function escapeHtml(value) {
         return String(value || '')
@@ -70,7 +81,7 @@
         if (!action) return '';
 
         return `
-            <a class="core-btn core-btn--secondary project-external-action" href="${escapeHtml(action.url)}" target="_blank" rel="noopener noreferrer" data-project-external="${escapeHtml(action.kind)}">
+            <a class="act act--ghost" href="${escapeHtml(action.url)}" target="_blank" rel="noopener noreferrer" data-project-external="${escapeHtml(action.kind)}">
                 ${externalActionIcon(action.kind)}
                 <span>${escapeHtml(action.label)}</span>
             </a>
@@ -126,12 +137,18 @@
         });
     }
 
+    const KIND_LABEL = { game: 'Jogo', iot: 'IoT', software: 'Software' };
+
+    function kindOf(project) {
+        return KIND_LABEL[project.type] || 'Projeto';
+    }
+
     function renderTabs() {
         if (!tabsEl) return;
 
         tabsEl.innerHTML = projects.map((project, index) => `
             <button
-                class="project-tab"
+                class="departure"
                 id="project-tab-${escapeHtml(project.slug)}"
                 type="button"
                 role="tab"
@@ -139,11 +156,12 @@
                 aria-controls="project-spotlight"
                 tabindex="${index === activeIndex ? '0' : '-1'}"
                 data-project-index="${index}">
-                ${escapeHtml(project.title.replace(' of The Sacred Tree', ''))}
+                <span class="departure-where">${escapeHtml(project.title)}</span>
+                <span class="departure-kind">${escapeHtml(kindOf(project))}</span>
             </button>
         `).join('');
 
-        tabsEl.querySelectorAll('.project-tab').forEach(tab => {
+        tabsEl.querySelectorAll('.departure').forEach(tab => {
             tab.addEventListener('click', () => selectProject(Number(tab.dataset.projectIndex), true));
             tab.addEventListener('keydown', handleTabKeys);
         });
@@ -169,6 +187,10 @@
         const project = projects[activeIndex];
         const cover = project.cover || {};
         const coverSrc = cover.src || 'assets/images/projects/ruins/ruins-banner.jpeg';
+        const coverDimensions = COVER_DIMENSIONS[coverSrc];
+        const coverDimensionAttrs = coverDimensions
+            ? ` width="${coverDimensions.width}" height="${coverDimensions.height}"`
+            : '';
         const facts = [
             getFact(project, 'Problema', 0),
             getFact(project, 'Papel', 1),
@@ -176,38 +198,43 @@
             getFact(project, 'Resultado', 3)
         ];
 
-        spotlightEl.classList.remove('is-changing');
-        void spotlightEl.offsetWidth;
-        spotlightEl.classList.add('is-changing');
+        spotlightEl.className = 'ticket';
         spotlightEl.setAttribute('aria-labelledby', `project-tab-${project.slug}`);
+        spotlightEl.dataset.projectType = project.type || '';
         spotlightEl.innerHTML = `
-            <div class="spotlight-media">
-                <img src="${escapeHtml(coverSrc)}"${renderFallbackAttribute(cover)} alt="${escapeHtml(cover.alt || `Imagem do projeto ${project.title}`)}" width="1200" height="900" decoding="async">
-                <span class="spotlight-media-meta">${escapeHtml((project.stack.slice(0, 3).join(' · ') || project.meta))}</span>
-            </div>
-            <article class="spotlight-content">
-                <span class="spotlight-count">${String(activeIndex + 1).padStart(2, '0')} / ${String(projects.length).padStart(2, '0')}</span>
-                <h3>${escapeHtml(project.title)}</h3>
-                <p class="spotlight-role">${escapeHtml(project.role)}</p>
-                <ul class="spotlight-facts">
-                    ${facts.map(item => `
-                        <li>
-                            <strong>${escapeHtml(item.label)}</strong>
-                            <span>${escapeHtml(item.text)}</span>
-                        </li>
-                    `).join('')}
-                </ul>
-                <div class="spotlight-stack">
-                    ${project.stack.slice(0, 5).map(item => `<span>${escapeHtml(item)}</span>`).join('')}
+            <div class="ticket-body">
+                <div class="ticket-head">
+                    <span class="ticket-code" data-ticket-code>${escapeHtml(kindOf(project))}</span>
+                    <span class="ticket-code">${escapeHtml(project.stack.slice(0, 2).join(' · '))}</span>
                 </div>
-                <div class="spotlight-actions">
-                    <button class="core-btn core-btn--primary spotlight-open" type="button" data-project-detail="${escapeHtml(project.slug)}">
-                        Abrir estudo de caso
-                        <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                <div>
+                    <h3>${escapeHtml(project.title)}</h3>
+                    <p class="ticket-role">${escapeHtml(project.role)}</p>
+                </div>
+                <p class="ticket-summary">${escapeHtml(project.summary)}</p>
+                <dl class="facts">
+                    ${facts.map(item => `
+                        <div class="fact">
+                            <dt>${escapeHtml(item.label)}</dt>
+                            <dd>${escapeHtml(item.text)}</dd>
+                        </div>
+                    `).join('')}
+                </dl>
+                <div class="ticket-stack">
+                    ${project.stack.slice(0, 5).map(item => `<span class="chip">${escapeHtml(item)}</span>`).join('')}
+                </div>
+                <div class="ticket-actions">
+                    <button class="act act--steel" type="button" data-project-detail="${escapeHtml(project.slug)}">
+                        Abrir o case completo
+                        <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 6l6 6-6 6"/></svg>
                     </button>
                     ${renderProjectExternalAction(project)}
                 </div>
-            </article>
+            </div>
+            <figure class="ticket-media">
+                <img src="${escapeHtml(coverSrc)}"${renderFallbackAttribute(cover)} alt="${escapeHtml(cover.alt || `Imagem do projeto ${project.title}`)}"${coverDimensionAttrs} loading="lazy" decoding="async">
+                <figcaption>${escapeHtml(cover.caption || project.meta)}</figcaption>
+            </figure>
         `;
 
         bindImageFallbacks(spotlightEl);
@@ -215,23 +242,38 @@
             openProjectDetail(project.slug, event.currentTarget);
         });
 
-        if (statusEl) statusEl.innerText = `Projeto ${activeIndex + 1} de ${projects.length}: ${project.title}.`;
+        const code = spotlightEl.querySelector('[data-ticket-code]');
+        if (code && window.Flap) window.Flap.flip(code, code.textContent);
+
+        if (statusEl) statusEl.innerText = `Caso ${activeIndex + 1} de ${projects.length}: ${project.title}.`;
     }
 
     function handlePointerDown(event) {
+        if (event.pointerType !== 'touch') return;
         pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
     }
 
     function handlePointerUp(event) {
+        if (event.pointerType !== 'touch') return;
         if (pointerStartX === null) return;
-        const delta = event.clientX - pointerStartX;
+        const deltaX = event.clientX - pointerStartX;
+        const deltaY = event.clientY - pointerStartY;
         pointerStartX = null;
+        pointerStartY = null;
 
-        if (Math.abs(delta) < 70) return;
-        const nextIndex = delta < 0
+        if (Math.abs(deltaX) < 70) return;
+        if (Math.abs(deltaX) <= Math.abs(deltaY) * 2) return;
+
+        const nextIndex = deltaX < 0
             ? (activeIndex + 1) % projects.length
             : (activeIndex - 1 + projects.length) % projects.length;
         selectProject(nextIndex);
+    }
+
+    function handlePointerCancel() {
+        pointerStartX = null;
+        pointerStartY = null;
     }
 
     function selectProject(index, fromTab) {
@@ -240,10 +282,10 @@
         renderTabs();
         renderSpotlight();
 
-        if (!fromTab) {
-            const activeTab = tabsEl?.querySelector(`[data-project-index="${activeIndex}"]`);
-            activeTab?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+        const activeTab = tabsEl?.querySelector(`[data-project-index="${activeIndex}"]`);
+
+        if (fromTab) activeTab?.focus();
+        else activeTab?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
 
     function showRandom() {
@@ -261,50 +303,42 @@
 
     function renderMedia(media) {
         return media.map(item => `
-            <figure class="project-detail-media-item">
+            <figure>
                 <img src="${escapeHtml(item.src)}"${renderFallbackAttribute(item)} alt="${escapeHtml(item.alt || '')}" loading="lazy" decoding="async">
-                <figcaption>${escapeHtml(item.caption || '')}</figcaption>
+                <figcaption class="live-note">${escapeHtml(item.caption || '')}</figcaption>
             </figure>
         `).join('');
     }
 
     function renderProjectDetail(project) {
         modalBody.innerHTML = `
-            <div class="project-detail-layout">
-                <section class="project-detail-copy">
-                    <span class="project-detail-eyebrow">Case · ${escapeHtml(project.meta)}</span>
-                    <h2 class="project-detail-title" id="project-detail-title">${escapeHtml(project.title)}</h2>
-                    <p class="project-detail-summary">${escapeHtml(project.summary)}</p>
-
-                    <div class="project-detail-chapter">
-                        <h3>01 · Contexto</h3>
-                        <p>${escapeHtml(project.context)}</p>
-                    </div>
-                    <div class="project-detail-chapter">
-                        <h3>02 · Responsabilidades</h3>
-                        <ul>${renderList(project.responsibilities)}</ul>
-                    </div>
-                    <div class="project-detail-chapter">
-                        <h3>03 · Decisões técnicas</h3>
-                        <ul>${renderList(project.technicalDecisions)}</ul>
-                    </div>
-                    <div class="project-detail-chapter">
-                        <h3>04 · Aprendizados</h3>
-                        <ul>${renderList(project.learnings)}</ul>
-                    </div>
-                    <div class="tech-row project-detail-stack">
-                        ${project.stack.map(item => `<span class="tech-tag">${escapeHtml(item)}</span>`).join('')}
-                    </div>
-                    <div class="project-detail-actions">
-                        ${renderProjectExternalAction(project)}
-                    </div>
-                </section>
-                <section class="project-detail-media" aria-label="Galeria do projeto">
-                    ${renderMedia(project.media)}
-                </section>
+            <h2 id="project-detail-title">${escapeHtml(project.title)}</h2>
+            <p class="ticket-role">${escapeHtml(project.role)}</p>
+            <h3>Contexto</h3>
+            <p>${escapeHtml(project.context)}</p>
+            <h3>Responsabilidades</h3>
+            <ul>${renderList(project.responsibilities)}</ul>
+            <h3>Decisões técnicas</h3>
+            <ul>${renderList(project.technicalDecisions)}</ul>
+            <h3>Aprendizados</h3>
+            <ul>${renderList(project.learnings)}</ul>
+            <h3>Stack</h3>
+            <div class="ticket-stack">
+                ${project.stack.map(item => `<span class="chip">${escapeHtml(item)}</span>`).join('')}
+            </div>
+            <div class="ticket-actions">
+                ${renderProjectExternalAction(project)}
+            </div>
+            <div class="case-media">
+                ${renderMedia(project.media)}
             </div>
         `;
         bindImageFallbacks(modalBody);
+    }
+
+    function getInertTargets() {
+        return [document.querySelector('.station-header'), document.getElementById('main-content'), document.querySelector('.station-footer')]
+            .filter(Boolean);
     }
 
     function openProjectDetail(projectId, trigger) {
@@ -316,6 +350,7 @@
         modal.classList.add('open');
         modal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('menu-open');
+        getInertTargets().forEach(element => element.setAttribute('inert', ''));
         window.setTimeout(() => closeButton?.focus(), 60);
     }
 
@@ -324,6 +359,7 @@
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('menu-open');
+        getInertTargets().forEach(element => element.removeAttribute('inert'));
         lastFocusedElement?.focus?.();
     }
 
@@ -355,6 +391,28 @@
         else trapFocus(event);
     }
 
+    const COUNT_WORDS = ['nenhum', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis',
+        'sete', 'oito', 'nove', 'dez', 'onze', 'doze'];
+
+    function countWord(value) {
+        return COUNT_WORDS[value] || String(value);
+    }
+
+    function caseCount() {
+        return projects.length;
+    }
+
+    function paintCaseCount() {
+        const word = countWord(projects.length);
+        const capitalized = word.charAt(0).toUpperCase() + word.slice(1);
+
+        document.querySelectorAll('[data-case-count]').forEach(el => {
+            const template = el.getAttribute('data-case-count');
+            if (!template) return;
+            el.textContent = template.replace(/\{n\}/g, word).replace(/\{N\}/g, capitalized);
+        });
+    }
+
     function setProjects(nextProjects) {
         const source = Array.isArray(nextProjects) && nextProjects.length
             ? nextProjects
@@ -363,10 +421,11 @@
         activeIndex = Math.min(activeIndex, Math.max(0, projects.length - 1));
         renderTabs();
         renderSpotlight();
+        paintCaseCount();
     }
 
     function init() {
-        tabsEl = document.querySelector('.project-tabs');
+        tabsEl = document.querySelector('.departures');
         spotlightEl = document.getElementById('project-spotlight');
         statusEl = document.getElementById('project-filter-status');
         modal = document.getElementById('project-detail-modal');
@@ -379,6 +438,7 @@
 
         spotlightEl.addEventListener('pointerdown', handlePointerDown, { passive: true });
         spotlightEl.addEventListener('pointerup', handlePointerUp, { passive: true });
+        spotlightEl.addEventListener('pointercancel', handlePointerCancel, { passive: true });
         document.getElementById('random-project-btn')?.addEventListener('click', showRandom);
         closeButton?.addEventListener('click', closeProjectDetail);
         overlay?.addEventListener('click', closeProjectDetail);
@@ -392,6 +452,8 @@
         openCurrentProjectDetail,
         setProjects,
         selectProject,
-        resolveExternalAction
+        resolveExternalAction,
+        caseCount,
+        countWord
     };
 })();

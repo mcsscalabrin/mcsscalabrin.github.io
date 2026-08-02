@@ -13,33 +13,98 @@
         return Boolean(cmdPalette && cmdPalette.classList.contains('open'));
     }
 
+    function getInertTargets() {
+        return [document.querySelector('.station-header'), document.getElementById('main-content'), document.querySelector('.station-footer')]
+            .filter(Boolean);
+    }
+
+    function normalizeSearchText(value) {
+        return String(value || '')
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .toLowerCase()
+            .trim();
+    }
+
+    function setActiveItem(item) {
+        cmdItems.forEach(candidate => {
+            candidate.classList.remove('is-active');
+            candidate.setAttribute('aria-selected', 'false');
+        });
+
+        if (item) {
+            item.classList.add('is-active');
+            item.setAttribute('aria-selected', 'true');
+        }
+
+        cmdSearchInput?.setAttribute('aria-activedescendant', item ? item.id : '');
+    }
+
+    function searchIndexOf(item) {
+        if (item.dataset.searchIndex) return item.dataset.searchIndex;
+        const label = item.querySelector('span');
+        const index = normalizeSearchText(
+            [label ? label.innerText : '', item.getAttribute('data-keywords') || ''].join(' ')
+        );
+        item.dataset.searchIndex = index;
+        return index;
+    }
+
     function filterCommands(query) {
-        const cleanQuery = query.toLowerCase().trim();
+        const cleanQuery = normalizeSearchText(query);
         let firstVisible = null;
+        let visibleCount = 0;
 
         cmdItems.forEach(item => {
-            const label = item.querySelector('span');
-            const text = label ? label.innerText.toLowerCase() : '';
-            const isVisible = text.includes(cleanQuery);
+            if (item.hidden) {
+                item.style.display = 'none';
+                return;
+            }
+
+            const isVisible = searchIndexOf(item).includes(cleanQuery);
 
             item.style.display = isVisible ? 'flex' : 'none';
             item.setAttribute('aria-hidden', String(!isVisible));
 
-            if (isVisible && !firstVisible) {
-                firstVisible = item;
-            } else {
-                item.classList.remove('active');
+            if (isVisible) {
+                visibleCount += 1;
+                if (!firstVisible) firstVisible = item;
             }
         });
 
-        document.querySelectorAll('.cmd-k-group').forEach(group => {
-            const visibleItems = Array.from(group.querySelectorAll('.cmd-k-item'))
+        document.querySelectorAll('.finder-group').forEach(group => {
+            const visibleItems = Array.from(group.querySelectorAll('.finder-item'))
                 .filter(item => item.style.display !== 'none');
             group.style.display = visibleItems.length > 0 ? 'block' : 'none';
         });
 
-        cmdItems.forEach(item => item.classList.remove('active'));
-        if (firstVisible) firstVisible.classList.add('active');
+        setActiveItem(firstVisible);
+
+        const emptyState = document.getElementById('finder-empty');
+        if (emptyState) {
+            emptyState.hidden = visibleCount > 0;
+            if (visibleCount === 0) {
+                const term = query.trim();
+                emptyState.innerHTML = '';
+                const line = document.createElement('span');
+                line.textContent = term
+                    ? `Nada com "${term}". Talvez você queira:`
+                    : 'Talvez você queira:';
+                emptyState.appendChild(line);
+
+                ['gate', 'projects', 'route'].forEach(target => {
+                    const shortcut = cmdItems.find(item => item.getAttribute('data-target') === target);
+                    if (!shortcut) return;
+                    shortcut.style.display = 'flex';
+                    shortcut.setAttribute('aria-hidden', 'false');
+                    shortcut.closest('.finder-group').style.display = 'block';
+                    if (!firstVisible) {
+                        firstVisible = shortcut;
+                        setActiveItem(shortcut);
+                    }
+                });
+            }
+        }
     }
 
     function openPalette() {
@@ -49,8 +114,10 @@
         cmdPalette.classList.add('open');
         cmdPalette.setAttribute('aria-hidden', 'false');
         openCmdBtn?.setAttribute('aria-expanded', 'true');
+        cmdSearchInput.setAttribute('aria-expanded', 'true');
         filterCommands('');
 
+        getInertTargets().forEach(element => element.setAttribute('inert', ''));
         window.setTimeout(() => cmdSearchInput.focus(), 50);
         document.body.classList.add('menu-open');
     }
@@ -61,8 +128,10 @@
         cmdPalette.classList.remove('open');
         cmdPalette.setAttribute('aria-hidden', 'true');
         openCmdBtn?.setAttribute('aria-expanded', 'false');
+        cmdSearchInput.setAttribute('aria-expanded', 'false');
         cmdSearchInput.value = '';
         filterCommands('');
+        getInertTargets().forEach(element => element.removeAttribute('inert'));
         document.body.classList.remove('menu-open');
 
         if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
@@ -80,15 +149,16 @@
             return;
         }
 
-        if (action === 'copy-email') {
+        if (action === 'email') {
             closePalette();
-            window.Portfolio.contact.copyEmail();
+            window.location.href = document.getElementById('email-link')?.getAttribute('href')
+                || `mailto:${window.Portfolio.config.email}`;
             return;
         }
 
-        if (action === 'download-resume') {
+        if (action === 'copy-email') {
             closePalette();
-            window.Portfolio.contact.downloadResume();
+            window.Portfolio.contact.copyEmail();
             return;
         }
 
@@ -150,19 +220,17 @@
         const visibleItems = cmdItems.filter(item => item.style.display !== 'none');
         if (visibleItems.length === 0) return;
 
-        const activeIndex = Math.max(0, visibleItems.findIndex(item => item.classList.contains('active')));
+        const activeIndex = Math.max(0, visibleItems.findIndex(item => item.classList.contains('is-active')));
 
         if (event.key === 'ArrowDown') {
             event.preventDefault();
             const nextIndex = (activeIndex + 1) % visibleItems.length;
-            visibleItems[activeIndex]?.classList.remove('active');
-            visibleItems[nextIndex].classList.add('active');
+            setActiveItem(visibleItems[nextIndex]);
             visibleItems[nextIndex].scrollIntoView({ block: 'nearest' });
         } else if (event.key === 'ArrowUp') {
             event.preventDefault();
             const prevIndex = (activeIndex - 1 + visibleItems.length) % visibleItems.length;
-            visibleItems[activeIndex]?.classList.remove('active');
-            visibleItems[prevIndex].classList.add('active');
+            setActiveItem(visibleItems[prevIndex]);
             visibleItems[prevIndex].scrollIntoView({ block: 'nearest' });
         } else if (event.key === 'Enter') {
             event.preventDefault();
@@ -172,17 +240,18 @@
     }
 
     function init() {
-        cmdPalette = document.getElementById('cmd-k-palette');
+        cmdPalette = document.getElementById('finder');
         openCmdBtn = document.getElementById('open-cmd-btn');
-        cmdOverlay = document.getElementById('cmd-k-overlay');
+        cmdOverlay = document.getElementById('finder-scrim');
         cmdSearchInput = document.getElementById('cmd-k-search-input');
-        cmdItems = Array.from(document.querySelectorAll('.cmd-k-item'));
+        cmdItems = Array.from(document.querySelectorAll('.finder-item'));
 
         if (!cmdPalette || !cmdSearchInput) return;
 
-        cmdItems.forEach(item => {
-            item.setAttribute('role', 'button');
-            item.setAttribute('tabindex', '-1');
+        cmdItems.forEach((item, index) => {
+            item.id = item.id || `finder-item-${index}`;
+            item.setAttribute('role', 'option');
+            item.setAttribute('aria-selected', 'false');
             item.addEventListener('click', () => executeCommand(item));
         });
 

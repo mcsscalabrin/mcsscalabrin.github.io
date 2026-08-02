@@ -34,7 +34,7 @@
 
     function applyHero(hero) {
         if (!hero) return;
-        setText('.hero-name', hero.title);
+        setText('[data-hero-name]', hero.title);
     }
 
     function applyContact(contact) {
@@ -58,45 +58,41 @@
         }
     }
 
-    function experienceLogoVariant(company) {
-        const normalizedCompany = String(company || '')
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase();
-
-        if (normalizedCompany.includes('itau')) return 'timeline-logo--itau';
-        if (normalizedCompany.includes('pomegranade')) return 'timeline-logo--pomegranade';
-        return '';
+    function normalizePeriod(value) {
+        return String(value || '').replace(/\bPresente\b/gi, 'Atual');
     }
 
-    function renderTimelineItem(item, index) {
+    function isLive(period) {
+        return /atual|presente/i.test(String(period || ''));
+    }
+
+    function renderTimelineItem(item) {
         const stack = Array.isArray(item.stack) ? item.stack : [];
+        const highlights = Array.isArray(item.highlights) ? item.highlights : [];
         const logoUrl = safeLogoUrl(item.logoUrl || item.logo_url);
         const logoFallbackUrl = safeLogoUrl(item.logoFallbackUrl || '');
-        const logoVariant = experienceLogoVariant(item.company);
+        const live = isLive(item.period);
+
         return `
-            <article class="timeline-item">
-                <span class="timeline-dot" aria-hidden="true"></span>
-                <div class="timeline-summary">
-                    <span class="timeline-period">${escapeHtml(item.period)}</span>
-                    <div class="timeline-company">
-                        ${logoUrl ? `
-                            <span class="timeline-logo${logoVariant ? ` ${logoVariant}` : ''}" aria-hidden="true">
-                                <img src="${escapeHtml(logoUrl)}" alt="" loading="lazy" decoding="async"${logoFallbackUrl ? ` data-logo-fallback="${escapeHtml(logoFallbackUrl)}"` : ''}>
-                            </span>
-                        ` : ''}
-                        <div class="timeline-company-copy">
-                            <h3>${escapeHtml(item.company)}</h3>
-                            <p>${escapeHtml(item.role)}</p>
-                        </div>
+            <article class="stop${live ? ' stop--live' : ''}">
+                <span class="stop-when">${escapeHtml(normalizePeriod(item.period))}</span>
+                <div>
+                    <div class="stop-org">
+                        ${logoUrl ? `<img src="${escapeHtml(logoUrl)}" alt="" loading="lazy" decoding="async"${logoFallbackUrl ? ` data-logo-fallback="${escapeHtml(logoFallbackUrl)}"` : ''}>` : ''}
+                        <h3>${escapeHtml(item.company)}</h3>
                     </div>
-                    <div class="timeline-tags">
-                        ${stack.slice(0, 5).map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}
-                    </div>
+                    <p class="stop-role">${escapeHtml(item.role)}</p>
+                    <ul class="stop-points">
+                        ${highlights.slice(0, 3).map(point => `
+                            <li>
+                                <h4>${escapeHtml(point.title || '')}</h4>
+                                <p>${escapeHtml(point.text || '')}</p>
+                            </li>
+                        `).join('')}
+                    </ul>
                 </div>
-                <div class="timeline-evidence">
-                    <span>${index === 0 ? 'Evidência atual' : 'Marco conectado'}</span>
-                    <p>${escapeHtml(item.evidence)}</p>
+                <div class="stop-stack">
+                    ${stack.slice(0, 6).map(tag => `<span class="chip">${escapeHtml(tag)}</span>`).join('')}
                 </div>
             </article>
         `;
@@ -128,9 +124,8 @@
                 logoUrl: item.logoUrl || item.logo_url || fallbackItem.logoUrl || '',
                 logoFallbackUrl: item.logoFallbackUrl || fallbackItem.logoUrl || '',
                 stack: Array.isArray(item.stack) && item.stack.length ? item.stack : (fallbackItem.stack || []),
-                evidence: highlights.length
-                    ? highlights.slice(0, 2).map(highlight => highlight.text).filter(Boolean).join(' ')
-                    : 'Experiência conectada aos projetos e às competências apresentadas neste portfólio.'
+
+                highlights
             };
         });
 
@@ -149,54 +144,50 @@
         if (!matrix) return;
 
         const groups = Array.isArray(skills) ? skills : [];
+        const caseTitles = (window.Portfolio.fallbackData?.projects || []).map(item => item.title);
         const rows = [
             {
-                label: 'Backend e APIs',
-                title: 'Serviços e integrações',
-                tools: groups[0]?.items || ['C#', 'Java', 'Python', 'TypeScript'],
-                proof: 'Itaú · RBAC · APIs',
+                title: 'Backend e integrações',
+                items: groups[0]?.items || ['C#', 'Java', 'Python', 'TypeScript'],
+                evidence: 'Aplicado em APIs e controle de acesso no Itaú Unibanco.',
                 projectIndex: 2
             },
             {
-                label: 'Automação e dados',
-                title: 'Processos e integrações',
-                tools: groups[1]?.items || ['Power Platform', 'APIs REST', 'SRE'],
-                proof: 'Itaú · Power Platform',
+                title: 'Automação de processos',
+                items: groups[1]?.items || ['Power Platform', 'APIs REST', 'Docker'],
+                evidence: 'Automações de provisionamento e segurança em ambiente bancário.',
                 projectIndex: 1
             },
             {
-                label: 'SRE e observabilidade',
-                title: 'Resiliência e operação',
-                tools: ['Monitoramento', 'Resiliência', 'GMUD', 'SRE'],
-                proof: 'Itaú · Operação',
-                projectIndex: 1
+                title: 'Confiabilidade e operação',
+                items: ['SRE', 'Observabilidade', 'Resiliência', 'GMUD', 'Cloud'],
+                evidence: 'Testes de resiliência e governança de mudança no Itaú Unibanco. Trabalho interno, sem case público.',
+
+                projectIndex: null
             },
             {
-                label: 'Produto e arquitetura',
-                title: 'Regras, interface e sistemas',
-                tools: groups[2]?.items || ['UX/UI', 'Product Thinking', 'Algoritmos'],
-                proof: 'Ruins · Sensor IoT · PC Setup',
+                title: 'Produto e arquitetura',
+                items: groups[2]?.items || ['System Design', 'Algoritmos', 'UX/UI Design'],
+                evidence: `Modelagem de regras e fluxo nos ${window.Portfolio.projects.countWord(window.Portfolio.projects.caseCount())} casos deste portfólio.`,
                 projectIndex: 0
             }
         ];
 
-        matrix.innerHTML = rows.map(row => `
-            <article class="capability-row">
-                <div class="capability-domain">
-                    <span class="capability-label">${escapeHtml(row.label)}</span>
-                    <h3>${escapeHtml(row.title)}</h3>
-                </div>
-                <div class="capability-tools">
-                    <span class="capability-label">Tecnologias e práticas</span>
-                    <p>${row.tools.slice(0, 5).map(escapeHtml).join(' · ')}</p>
-                </div>
-                <div class="capability-proof">
-                    <span class="capability-label">Prova</span>
-                    <p>${escapeHtml(row.proof)}</p>
-                </div>
-                <button class="capability-action" type="button" data-capability-project="${row.projectIndex}">Ver evidência</button>
+        const shortTitle = title => String(title || '').split(' ').slice(0, 3).join(' ').replace(/[,:]$/, '');
+
+        matrix.innerHTML = rows.map(row => {
+            const target = row.projectIndex === null ? '' : caseTitles[row.projectIndex];
+            return `
+            <article class="capability">
+                <h3>${escapeHtml(row.title)}</h3>
+                <ul class="capability-items">
+                    ${row.items.slice(0, 6).map(item => `<li class="chip">${escapeHtml(item)}</li>`).join('')}
+                </ul>
+                <p class="capability-evidence">${escapeHtml(row.evidence)}</p>
+                ${target ? `<button class="act act--ghost" type="button" data-capability-project="${row.projectIndex}" aria-label="Abrir o caso ${escapeHtml(target)}">Ver ${escapeHtml(shortTitle(target))}</button>` : ''}
             </article>
-        `).join('');
+        `;
+        }).join('');
 
         matrix.querySelectorAll('[data-capability-project]').forEach(button => {
             button.addEventListener('click', () => {
@@ -243,24 +234,21 @@
             const credentialUrl = safeExternalUrl(item.credentialUrl || item.credential_url);
             const imageUrl = safeExternalUrl(item.imageUrl || '');
             const skills = Array.isArray(item.skills) ? item.skills : [];
+
             return `
-                <article class="certificate-row">
-                    <div class="certificate-mark" aria-hidden="true">
-                        ${imageUrl
-                            ? `<img src="${escapeHtml(imageUrl)}" alt="" loading="lazy" decoding="async">`
-                            : '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 7v6c0 4.5 3.4 7.2 8 8 4.6-.8 8-3.5 8-8V7l-8-4Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>'}
-                    </div>
-                    <div class="certificate-main">
-                        <span>${escapeHtml(item.issuer)}</span>
+                <article class="credential">
+                    ${imageUrl
+                        ? `<img src="${escapeHtml(imageUrl)}" alt="" loading="lazy" decoding="async">`
+                        : '<svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 7v6c0 4.5 3.4 7.2 8 8 4.6-.8 8-3.5 8-8V7l-8-4Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>'}
+                    <div>
                         <h3>${escapeHtml(item.name)}</h3>
-                        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+                        <p class="credential-meta">
+                            <span>${escapeHtml(item.issuer)}</span>
+                            <time datetime="${escapeHtml(item.issuedAt || item.issued_at || '')}">${escapeHtml(formatCertificateDate(item.issuedAt || item.issued_at))}</time>
+                        </p>
+                        ${skills.length ? `<p class="credential-skills">${skills.slice(0, 4).map(escapeHtml).join(' · ')}</p>` : ''}
                     </div>
-                    <div class="certificate-meta">
-                        <time datetime="${escapeHtml(item.issuedAt || item.issued_at || '')}">${escapeHtml(formatCertificateDate(item.issuedAt || item.issued_at))}</time>
-                        ${item.credentialId || item.credential_id ? `<span>ID ${escapeHtml(item.credentialId || item.credential_id)}</span>` : ''}
-                        ${skills.length ? `<p>${skills.slice(0, 4).map(escapeHtml).join(' · ')}</p>` : ''}
-                    </div>
-                    ${credentialUrl ? `<a class="certificate-link" href="${escapeHtml(credentialUrl)}" target="_blank" rel="noopener noreferrer">Ver credencial <span aria-hidden="true">↗</span></a>` : ''}
+                    ${credentialUrl ? `<a class="act act--ghost" href="${escapeHtml(credentialUrl)}" target="_blank" rel="noopener noreferrer">Verificar</a>` : ''}
                 </article>
             `;
         }).join('');
@@ -276,10 +264,10 @@
     }
 
     function applySocialLinks(links) {
-        const container = document.querySelector('.contact-links');
+        const container = document.querySelector('.gate-social');
         if (!container || !Array.isArray(links) || !links.length) return;
 
-        const order = ['LinkedIn', 'GitHub', 'Instagram'];
+        const order = ['GitHub', 'Instagram'];
         const defaults = {
             Instagram: {
                 name: 'Instagram',
@@ -300,10 +288,7 @@
         container.innerHTML = preferred.map(link => `
             <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir ${escapeHtml(link.name)} de Matheus Scalabrin">
                 ${socialIcon(link.name)}
-                <span>
-                    <strong>${escapeHtml(link.name)}</strong>
-                    <small>${link.name === 'Instagram' ? '@' : ''}${escapeHtml(link.label || link.name)}</small>
-                </span>
+                ${escapeHtml(link.name)}
             </a>
         `).join('');
     }
