@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" preserveAspectRatio="none" role="img" aria-label="">
-  <!--
-    Face de placa split-flap: duas metades com iluminação distinta, vinco central,
-    dobradiça saliente e sombra que a metade de cima projeta sobre a de baixo.
-    Geometria precisa com partes contáveis — por isso vetor, não raster.
-  -->
+
   <defs>
     <linearGradient id="top" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#26282d"/>
@@ -32,17 +28,16 @@
     </linearGradient>
   </defs>
 
-  <!-- metade superior: recebe a luz do saguão -->
   <rect x="0" y="0" width="100" height="69" fill="url(#top)"/>
-  <!-- vinco -->
+
   <rect x="0" y="69" width="100" height="2" fill="#000"/>
-  <!-- metade inferior: na sombra da de cima -->
+
   <rect x="0" y="71" width="100" height="69" fill="url(#bottom)"/>
-  <!-- sombra projetada da metade de cima -->
+
   <rect x="0" y="71" width="100" height="16" fill="url(#cast)"/>
-  <!-- dobradiça central -->
+
   <rect x="43" y="64" width="14" height="12" rx="1.5" fill="url(#hinge)"/>
   <rect x="43" y="64" width="14" height="1" fill="#4a4e55" opacity="0.7"/>
-  <!-- brilho de topo e sombra de base da placa inteira -->
+
   <rect x="0" y="0" width="100" height="140" fill="url(#edge)"/>
 </svg>

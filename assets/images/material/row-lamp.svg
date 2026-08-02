@@ -1,9 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="">
-  <!--
-    Lâmpada de linha: matriz de LEDs âmbar, cada um com halo próprio e
-    reflexo especular. Ladrilha por trás dos rótulos de estado vivo.
-    Elementos contáveis num grid — vetor.
-  -->
+
   <defs>
     <radialGradient id="led" cx="0.36" cy="0.32" r="0.72">
       <stop offset="0" stop-color="#fff0c2"/>
