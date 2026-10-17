@@ -1,479 +1,189 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <!--
-      Você abriu o painel por trás. Bem-vindo.
-
-      Nada aqui é animação por enfeite: as placas viram porque um painel
-      de saguão vira quando a informação muda. Se a linha some e volta,
-      é uma pá emperrada — painel de verdade sempre tem uma.
-
-      Os comentários de projeto ficam no código-fonte, não em produção.
-      Se você chegou até aqui, provavelmente quer vê-los:
-
-          github.com/mcsscalabrin
-
-      Se leu até o fim, me manda um oi e diz que achou a placa solta.
-
-      — Matheus
-    -->
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Matheus Scalabrin é engenheiro de software e resolvedor de problemas. Estagiário de Engenharia de TI no Itaú Unibanco, com RBAC, SRE, APIs e automação em produção — e casos autorais que vão de jogo publicado a IoT, mobile e acessibilidade.">
-    <meta name="keywords" content="Matheus Scalabrin, Matheus Chiosini Scalabrin, engenheiro de software, desenvolvedor backend, portfólio desenvolvedor, RBAC, controle de acesso, micro-frontends, SRE, confiabilidade, observabilidade, GMUD, APIs REST, automação, Power Platform, Itaú Unibanco, SPTech School, Sistemas de Informação, São Paulo, Java, C#, Python, JavaScript, TypeScript, SQL, C++, Node.js, Express, MySQL, React, React Native, Expo, Docker, Linux, IoT, Arduino, Unity, acessibilidade web, Web Speech API, System Design">
-    <meta name="author" content="Matheus Scalabrin">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="pt_BR">
-    <meta property="og:url" content="https://scalabrin.dev/">
-    <meta property="og:title" content="Matheus Scalabrin | Backend, Automação e Confiabilidade">
-    <meta property="og:description" content="RBAC, resiliência, APIs e automação no Itaú Unibanco. Cada caso com problema, papel, decisão e resultado — do banco ao jogo na BGS, ao sensor e à acessibilidade.">
-    <meta property="og:image" content="assets/images/profile/matheus-scalabrin.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Matheus Scalabrin | Backend, Automação e Confiabilidade">
-    <meta name="twitter:description" content="RBAC, resiliência, APIs e automação no Itaú Unibanco. Casos autorais, do banco ao jogo na BGS.">
-    <meta name="twitter:image" content="assets/images/profile/matheus-scalabrin.jpg">
-    <meta name="theme-color" content="#0d0d0f">
-    <script>document.documentElement.dataset.theme=localStorage.getItem('scalabrin-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');</script>
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "@id": "https://scalabrin.dev/#matheus-scalabrin",
-            "name": "Matheus Scalabrin",
-            "alternateName": "Matheus Chiosini Scalabrin",
-            "description": "Engenheiro de software e resolvedor de problemas. Estagiário de Engenharia de TI no Itaú Unibanco, onde trabalha com controle de acesso baseado em papéis (RBAC), confiabilidade de sistemas (SRE), APIs e automação. Fora do banco, mantém projetos autorais de jogo, IoT, mobile e acessibilidade digital.",
-            "url": "https://scalabrin.dev/",
-            "mainEntityOfPage": "https://scalabrin.dev/",
-            "image": "https://scalabrin.dev/assets/images/profile/matheus-scalabrin.jpg",
-            "email": "mailto:mcsscalabrin@gmail.com",
-            "jobTitle": "Estagiário de Engenharia de TI",
-            "knowsLanguage": ["pt-BR", "en"],
-            "nationality": {
-                "@type": "Country",
-                "name": "Brasil"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "São Paulo",
-                "addressRegion": "SP",
-                "addressCountry": "BR"
-            },
-            "worksFor": {
-                "@type": "Organization",
-                "name": "Itaú Unibanco",
-                "url": "https://www.itau.com.br/"
-            },
-            "alumniOf": {
-                "@type": "CollegeOrUniversity",
-                "name": "SPTech School",
-                "url": "https://www.sptech.school/"
-            },
-            "affiliation": {
-                "@type": "CollegeOrUniversity",
-                "name": "SPTech School"
-            },
-            "knowsAbout": [
-                "Engenharia de software", "Backend", "APIs REST", "RBAC",
-                "Controle de acesso", "Micro-frontends", "SRE",
-                "Confiabilidade de sistemas", "Observabilidade", "GMUD",
-                "Automação de processos", "Power Platform", "Java", "C#",
-                "Python", "JavaScript", "TypeScript", "SQL", "C++",
-                "Node.js", "Express", "MySQL", "React", "React Native", "Expo",
-                "Docker", "Linux", "Cloud Computing", "IoT", "Arduino", "Unity",
-                "Acessibilidade web", "Web Speech API", "System Design",
-                "UX/UI Design", "Metodologias Ágeis"
-            ],
-            "hasCredential": [
-                {
-                    "@type": "EducationalOccupationalCredential",
-                    "name": "Associate - Generative AI",
-                    "credentialCategory": "certificate",
-                    "recognizedBy": { "@type": "Organization", "name": "Itaú Unibanco" }
-                },
-                {
-                    "@type": "EducationalOccupationalCredential",
-                    "name": "Automação No/Low Code - Foundation",
-                    "credentialCategory": "certificate",
-                    "recognizedBy": { "@type": "Organization", "name": "Itaú Unibanco" }
-                },
-                {
-                    "@type": "EducationalOccupationalCredential",
-                    "name": "SRE - Trained",
-                    "credentialCategory": "certificate",
-                    "recognizedBy": { "@type": "Organization", "name": "Itaú Unibanco" }
-                }
-            ],
-            "sameAs": [
-                "https://github.com/mcsscalabrin",
-                "https://www.linkedin.com/in/matheus-scalabrin/",
-                "https://www.instagram.com/scalabrin.dev/",
-                "https://pomegranade-studios.itch.io/"
-            ]
+<!doctype html><html lang="pt-BR" data-theme="claro"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Matheus Scalabrin | Engenharia de Software, Dynamics 365 e SRE</title><meta name="description" content="Matheus Scalabrin, engenheiro de software no Itaú Unibanco. Dynamics 365, Power Platform, SRE e projetos autorais de jogos, IoT e open-source."/><meta name="author" content="Matheus Scalabrin"/><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1"/><link rel="canonical" href="https://scalabrin.dev/"/><link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg"/><meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)"/><meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)"/><script>try {
+        var saved = localStorage.getItem('gitprofile-theme');
+        if (saved === 'claro' || saved === 'escuro') {
+          document.documentElement.setAttribute('data-theme', saved);
         }
-    </script>
-    <title>Matheus Scalabrin | Backend, Automação e Confiabilidade</title>
-    <link rel="canonical" href="https://scalabrin.dev/">
-    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-    <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/styles/tokens.css?v=20260801c">
-    <link rel="stylesheet" href="assets/styles/base.css?v=20260801b">
-    <link rel="stylesheet" href="assets/styles/board.css?v=20260801d">
-</head>
-<body>
-
-    <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
-
-    <header class="station-header">
-        <div class="station-bar">
-            <a class="nameplate" href="#top" aria-label="Matheus Scalabrin — voltar ao início">
-                <span class="lamp" aria-hidden="true"></span>
-                Matheus Scalabrin
-            </a>
-
-            <nav class="station-nav" aria-label="Navegação principal">
-                <a href="#projects">Projetos</a>
-                <a href="#route">Trajeto</a>
-                <a href="#skills">Competências</a>
-                <a href="#certificates" data-certificates-nav hidden>Certificados</a>
-                <a href="#about">Sobre</a>
-                <a href="#gate">Contato</a>
-            </nav>
-
-            <div class="station-actions">
-                <button class="instrument-btn" type="button" data-theme-toggle aria-pressed="false">
-                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" data-icon-night><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
-                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" data-icon-day hidden><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
-                    <span class="sr-only" data-preference-label>Acender o saguão</span>
-                </button>
-                <button class="instrument-btn" type="button" data-sound-toggle aria-pressed="false">
-                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" data-icon-muted><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="m17 9 4 4M21 9l-4 4"/></svg>
-                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" data-icon-audible hidden><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-                    <span class="sr-only" data-preference-label>Som do painel desligado</span>
-                </button>
-                <button class="instrument-btn search-btn" id="open-cmd-btn" type="button" aria-controls="finder" aria-expanded="false">
-                    <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
-                    <span>Buscar</span>
-                    <kbd>Ctrl K</kbd>
-                </button>
-                <button class="instrument-btn menu-btn" id="mobile-menu-btn" type="button" aria-label="Abrir navegação" aria-controls="mobile-nav" aria-expanded="false">
-                    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3.5 7h17M3.5 12h17M3.5 17h17"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <nav class="mobile-nav" id="mobile-nav" aria-label="Navegação mobile" hidden>
-            <a href="#projects">Projetos</a>
-            <a href="#route">Trajeto</a>
-            <a href="#skills">Competências</a>
-            <a href="#certificates" data-certificates-nav hidden>Certificados</a>
-            <a href="#about">Sobre</a>
-            <button class="mobile-cta" type="button" data-open-gate>Falar comigo</button>
-        </nav>
-    </header>
-
-    <main id="main-content">
-        <section class="concourse" id="top">
-            <div class="shell">
-                <div class="board">
-                    <div class="board-main">
-
-                        <h1 class="board-headline">
-                            <span class="sr-only">Matheus Scalabrin: engenheiro de software e resolvedor de problemas.</span>
-                            <span class="flapline" data-flap data-flap-text="ENGENHEIRO" aria-hidden="true">ENGENHEIRO</span>
-                            <span class="flapline" data-flap data-flap-text="DE SOFTWARE" aria-hidden="true">DE SOFTWARE</span>
-                            <span class="flapline" data-flap data-flap-text="&amp; RESOLVEDOR" aria-hidden="true">&amp; RESOLVEDOR</span>
-                            <span class="flapline" data-flap data-flap-text="DE PROBLEMAS" aria-hidden="true">DE PROBLEMAS</span>
-                        </h1>
-
-                        <p class="job-plate">Estagiário de Engenharia de TI · Itaú Unibanco</p>
-
-                        <p class="board-claim">Tudo acima é trabalho em ambiente de produção, não exercício de curso.</p>
-
-                        <p class="board-lede">
-                            <strong data-hero-name>Matheus Scalabrin</strong>. Trabalho com RBAC em micro-frontends,
-                            testes de resiliência, governança de mudança e automação de processos internos.
-                            Estudante de Sistemas de Informação na SPTech.
-                        </p>
-
-                        <div class="board-actions">
-                            <a class="act act--primary" href="#gate">
-                                Falar comigo
-                                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 6l6 6-6 6"/></svg>
-                            </a>
-                            <a class="act act--ghost" href="#projects" data-case-count="Ver os {n} casos">Ver os casos</a>
-                        </div>
-                    </div>
-
-                    <div class="board-live">
-                        <p class="live-title">
-                            <span>Registro</span>
-                            <span>2026</span>
-                        </p>
-                        <table class="live-table">
-                            <caption>Formação, experiência e projetos, com a situação de cada um.</caption>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Quando</th>
-                                    <th scope="col">Onde</th>
-                                    <th scope="col">Situação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="live-row live-row--live">
-                                    <td class="col-when">2026</td>
-                                    <td class="col-where">Itaú Unibanco</td>
-                                    <td><span class="sit sit--live">Em curso</span></td>
-                                </tr>
-                                <tr class="live-row live-row--live">
-                                    <td class="col-when">2025</td>
-                                    <td class="col-where">SPTech</td>
-                                    <td><span class="sit sit--live">Em curso</span></td>
-                                </tr>
-                                <tr class="live-row">
-                                    <td class="col-when">2024</td>
-                                    <td class="col-where">Ruins / BGS</td>
-                                    <td><span class="sit sit--done">Concluído</span></td>
-                                </tr>
-                                <tr class="live-row">
-                                    <td class="col-when">2024</td>
-                                    <td class="col-where">Sensor de solo</td>
-                                    <td><span class="sit sit--done">Concluído</span></td>
-                                </tr>
-                                <tr class="live-row">
-                                    <td class="col-when">2024</td>
-                                    <td class="col-where">PC Setup</td>
-                                    <td><span class="sit sit--done">Concluído</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <dl class="scope-strip">
-                    <dt>Escopo em produção</dt>
-                    <dd>
-                        <span>RBAC</span>
-                        <span>Micro-frontends</span>
-                        <span>Resiliência</span>
-                        <span>GMUD</span>
-                        <span>APIs REST</span>
-                        <span>Power Platform</span>
-                    </dd>
-                    <span class="avail"><i class="lamp" aria-hidden="true"></i>Disponível para conversar</span>
-                </dl>
-            </div>
-        </section>
-
-        <section class="hall-section" id="projects">
-            <div class="shell">
-                <div class="section-head">
-                    <h2 data-case-count="{N} casos, do problema ao resultado.">Casos, do problema ao resultado.</h2>
-                    <p>Cada um responde às mesmas quatro perguntas: qual era o problema, qual foi meu papel, o que decidi e o que resultou disso.</p>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-face">
-                        <p class="panel-head"><span>Casos</span><span>Tipo</span></p>
-                        <div class="departures" role="tablist" aria-label="Casos selecionados"></div>
-                    </div>
-                </div>
-                <p class="sr-only" id="project-filter-status" aria-live="polite"></p>
-                <div id="project-spotlight" role="tabpanel" tabindex="-1"></div>
-                <button class="random-departure" id="random-project-btn" type="button">
-                    Ver outro caso
-                    <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h6l10 10h-4M20 17l-3 3M20 17l-3-3M4 17h6l3-3"/></svg>
-                </button>
-            </div>
-        </section>
-
-        <section class="hall-section hall-section--deep" id="record">
-            <div class="shell">
-                <div class="panel">
-                    <div class="panel-face">
-                        <p class="panel-head"><span>Matheus Scalabrin · registro</span><span>Situação</span></p>
-
-                        <div class="bdiv" id="route"><h2>Trajeto</h2><i aria-hidden="true"></i></div>
-                        <div class="route" id="experience-timeline"></div>
-
-                        <div class="bdiv" id="skills"><h2>Competências</h2><i aria-hidden="true"></i></div>
-                        <div class="capabilities" id="capability-matrix"></div>
-
-                        <div id="certificates" hidden>
-                            <div class="bdiv"><h2>Credenciais</h2><i aria-hidden="true"></i></div>
-                            <div class="credentials" id="certificates-list"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="hall-section" id="about">
-            <div class="shell">
-                <div class="section-head">
-                    <h2>Como eu trabalho.</h2>
-                </div>
-                <div class="platform about-grid">
-                    <figure class="about-portrait">
-                        <img src="assets/images/profile/matheus-scalabrin.jpg" srcset="assets/images/profile/matheus-scalabrin-400w.jpg 400w, assets/images/profile/matheus-scalabrin.jpg 700w" sizes="(max-width: 860px) 260px, 300px" alt="Retrato de Matheus Scalabrin" width="700" height="1244" loading="lazy" decoding="async">
-                    </figure>
-                    <div class="about-copy">
-                        <p>Prefiro entender o problema antes de escolher a tecnologia. Em ambiente bancário isso não é preferência estética: uma decisão de acesso mal modelada vira incidente, e um processo automatizado sem observabilidade vira caixa-preta na primeira falha.</p>
-                        <p>Por isso <strong>registro decisão</strong>. Cada caso aqui tem problema, papel, decisão técnica e resultado — nessa ordem, sempre — porque é assim que dá para julgar se a escolha foi boa, e não só se o código roda.</p>
-                        <p>Fora do banco, o que me interessa é a mesma coisa em outra escala: um jogo precisa que gameplay, interface e áudio sejam sistemas separados; um sensor de umidade precisa que ruído elétrico não vire alerta falso. <strong>É sempre o mesmo trabalho</strong> — decidir o que separar e o que medir.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="hall-section" id="kudos">
-            <div class="shell">
-                <div class="kudos-strip" id="kudos-strip">
-                    <span class="kudos-lamp" aria-hidden="true"></span>
-                    <p id="kudos-ask">Este portfólio te ajudou a entender meu trabalho? Deixar um kudos leva um clique e me diz o que vale aprofundar.</p>
-                    <p class="kudos-announce" id="kudos-announce" data-flap-text="OBRIGADO" aria-hidden="true" hidden></p>
-                    <span class="kudos-tally" id="kudos-counter">
-                        <strong id="kudos-count">0</strong>
-                        <span>kudos</span>
-                    </span>
-                    <button class="act act--ghost" id="leave-kudos-btn" type="button">
-                        <span class="kudos-button-label">Deixar kudos</span>
-                    </button>
-                    <p class="kudos-status" id="kudos-status" aria-live="polite"></p>
-                    <span id="hero-kudos-count" hidden>0</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="hall-section gate" id="gate">
-            <div class="shell">
-                <div class="platform gate-grid">
-                    <div class="gate-copy">
-
-                        <h2>
-                            Vamos conversar sobre backend e automação?
-                            <span class="gate-state">Aberto</span>
-                        </h2>
-                        <p>Respondo em até 24 horas. LinkedIn é o caminho mais rápido; e-mail funciona igual.</p>
-
-                        <div class="gate-social">
-                            <a href="https://github.com/mcsscalabrin" target="_blank" rel="noopener noreferrer">
-                                <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.54 1.03 1.54 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.55 9.55 0 0 1 12 6.84c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
-                                GitHub
-                            </a>
-                            <a href="https://www.instagram.com/scalabrin.dev/" target="_blank" rel="noopener noreferrer">
-                                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-                                Instagram
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="gate-actions">
-                        <a class="act act--primary" href="https://www.linkedin.com/in/matheus-scalabrin/" target="_blank" rel="noopener noreferrer">
-                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.5 8.25H3.25V20H6.5V8.25ZM4.88 3A1.88 1.88 0 1 0 4.88 6.75 1.88 1.88 0 0 0 4.88 3ZM20.75 13.26c0-3.54-1.89-5.19-4.42-5.19-2.04 0-2.95 1.12-3.46 1.91V8.25H9.62V20h3.25v-5.82c0-1.53.29-3.02 2.19-3.02 1.87 0 1.89 1.75 1.89 3.12V20h3.25l.55-6.74Z"/></svg>
-                            Chamar no LinkedIn
-                        </a>
-
-                        <a class="act act--ghost" id="cv-link" href="assets/docs/matheus-scalabrin-cv-pt.pdf" target="_blank" rel="noopener noreferrer">
-                            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13.5 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9l-5.5-5.5Z"/><path d="M13.5 3.5V9H19"/><path d="M12 11.2v5.6m0 0-2.1-2.1M12 16.8l2.1-2.1"/></svg>
-                            Baixar currículo
-                        </a>
-                        <p class="gate-note gate-note--caption">
-                            PDF em português.
-                            <a href="assets/docs/matheus-scalabrin-cv-en.pdf" target="_blank" rel="noopener noreferrer">Resume in English</a>
-                        </p>
-                        <a class="act act--ghost" id="email-link" href="mailto:mcsscalabrin@gmail.com?subject=Contato%20pelo%20portf%C3%B3lio">
-                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3.5 5.5h17v13h-17z"/><path d="m3.5 7.5 8.5 6 8.5-6"/></svg>
-                            Enviar e-mail
-                        </a>
-                        <button class="act act--ghost" id="copy-email-btn" type="button">
-                            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 5.5h-9a2 2 0 0 0-2 2v9"/></svg>
-                            <span id="copy-email-text" data-copy-label>Copiar endereço</span>
-                        </button>
-                        <p class="gate-note" id="contact-email">mcsscalabrin@gmail.com</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="station-footer">
-        <div class="shell footer-row">
-            <p>
-                <strong>Matheus Scalabrin</strong>
-                Software explicado do problema ao resultado.
-            </p>
-            <a href="#top">Voltar ao topo ↑</a>
-        </div>
-    </footer>
-
-    <div class="finder" id="finder" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Buscar no portfólio">
-        <div class="finder-scrim" id="finder-scrim"></div>
-        <div class="finder-panel">
-            <div class="finder-field">
-                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
-                <input type="text" id="cmd-k-search-input" role="combobox" aria-expanded="false" aria-controls="finder-results" aria-autocomplete="list" aria-activedescendant="" aria-label="Buscar seção, projeto ou ação" placeholder="Buscar seção, projeto ou ação" autocomplete="off">
-                <span class="esc">Esc</span>
-            </div>
-            <div class="finder-results" id="finder-results" role="listbox" aria-label="Resultados">
-                <p class="finder-empty" id="finder-empty" hidden></p>
-                <div class="finder-group">
-                    <div class="finder-group-title">Ir para</div>
-                    <div class="finder-item" role="option" data-action="scroll" data-target="projects" data-keywords="casos projetos portfolio trabalhos ruins jogo game unity sensor iot arduino pc setup typescript"><span>Casos selecionados</span></div>
-                    <div class="finder-item" role="option" data-action="scroll" data-target="route" data-keywords="trajeto experiencia carreira itau unibanco banco sptech faculdade pomegranade estagio emprego"><span>Trajeto</span></div>
-                    <div class="finder-item" role="option" data-action="scroll" data-target="skills" data-keywords="competencias skills stack tecnologias java csharp c# python javascript typescript sql docker linux git sre rbac apis power platform"><span>Competências</span></div>
-                    <div class="finder-item" role="option" data-action="scroll" data-target="certificates" data-certificates-nav hidden data-keywords="certificados credenciais credly badges ia generativa low code sre"><span>Credenciais</span></div>
-                    <div class="finder-item" role="option" data-action="scroll" data-target="about" data-keywords="sobre quem sou bio perfil como trabalho"><span>Como eu trabalho</span></div>
-                    <div class="finder-item" role="option" data-action="scroll" data-target="gate" data-keywords="contato falar conversar portao gate oportunidade vaga"><span>Contato</span></div>
-                </div>
-                <div class="finder-group">
-                    <div class="finder-group-title">Ações</div>
-                    <div class="finder-item" role="option" data-action="link" data-url="assets/docs/matheus-scalabrin-cv-pt.pdf" data-keywords="curriculo cv resume pdf baixar download arquivo historico"><span>Baixar currículo (PT)</span></div>
-                    <div class="finder-item" role="option" data-action="link" data-url="assets/docs/matheus-scalabrin-cv-en.pdf" data-keywords="resume english ingles cv curriculo pdf baixar download"><span>Resume in English (EN)</span></div>
-                    <div class="finder-item" role="option" data-action="email" data-keywords="email mail e-mail escrever mandar enviar contato mcsscalabrin gmail"><span>Enviar e-mail</span></div>
-                    <div class="finder-item" role="option" data-action="copy-email" data-keywords="copiar email endereco clipboard"><span>Copiar endereço de e-mail</span></div>
-                    <div class="finder-item" role="option" data-action="open-project-detail" data-keywords="case estudo detalhe abrir completo"><span>Abrir o case em destaque</span></div>
-                    <div class="finder-item" role="option" data-action="random-project" data-keywords="aleatorio outro sorte surpresa"><span>Ver outro caso</span></div>
-                    <div class="finder-item" role="option" data-action="leave-kudos" data-keywords="kudos feedback curtir gostei"><span>Deixar kudos</span></div>
-                </div>
-                <div class="finder-group">
-                    <div class="finder-group-title">Perfis</div>
-                    <div class="finder-item" role="option" data-action="link" data-url="https://www.linkedin.com/in/matheus-scalabrin/" data-keywords="linkedin rede social profissional perfil conectar"><span>LinkedIn</span></div>
-                    <div class="finder-item" role="option" data-action="link" data-url="https://github.com/mcsscalabrin" data-keywords="github codigo repositorio repositorios source"><span>GitHub</span></div>
-                    <div class="finder-item" role="option" data-action="link" data-url="https://pomegranade-studios.itch.io/" data-keywords="itch io jogar jogo ruins sacred tree download"><span>Jogar Ruins na itch.io</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="case-modal" id="project-detail-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="project-detail-title">
-        <div class="case-scrim" id="project-detail-overlay"></div>
-        <div class="case-dialog" role="document">
-            <button class="case-close" id="project-detail-close" type="button" aria-label="Fechar case">
-                <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-            </button>
-            <div class="case-body" id="project-detail-body"></div>
-        </div>
-    </div>
-
-    <div class="toast-container" id="toast-container"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/scripts/config.js"></script>
-    <script src="assets/scripts/cms-config.js?v=3"></script>
-    <script src="assets/scripts/cms-fallback-data.js?v=5"></script>
-    <script src="assets/scripts/cms-client.js?v=9"></script>
-    <script src="assets/scripts/utils.js"></script>
-    <script src="assets/scripts/flap.js?v=2"></script>
-    <script src="assets/scripts/toast.js"></script>
-    <script src="assets/scripts/navigation.js?v=2"></script>
-    <script src="assets/scripts/contact.js?v=3"></script>
-    <script src="assets/scripts/kudos.js?v=4"></script>
-    <script src="assets/scripts/projects.js?v=6"></script>
-    <script src="assets/scripts/content.js?v=7"></script>
-    <script src="assets/scripts/command-palette.js?v=2"></script>
-    <script src="assets/scripts/interactions.js?v=6"></script>
-    <script src="assets/scripts/preferences.js?v=2"></script>
-    <script src="assets/scripts/main.js?v=3"></script>
-</body>
-</html>
+      } catch (e) {}</script><link rel="preload" href="/assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"/><meta property="og:type" content="profile"/><meta property="og:locale" content="pt_BR"/><meta property="og:site_name" content="Matheus Scalabrin"/><meta property="og:url" content="https://scalabrin.dev/"/><meta property="og:title" content="Matheus Scalabrin | Engenharia de Software, Dynamics 365 e SRE"/><meta property="og:description" content="Matheus Scalabrin, engenheiro de software no Itaú Unibanco. Dynamics 365, Power Platform, SRE e projetos autorais de jogos, IoT e open-source."/><meta property="og:image" content="https://scalabrin.dev/assets/images/profile/matheus-scalabrin.jpg"/><meta property="og:image:alt" content="Foto de Matheus Scalabrin"/><meta property="profile:first_name" content="Matheus"/><meta property="profile:last_name" content="Scalabrin"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Matheus Scalabrin | Engenharia de Software, Dynamics 365 e SRE"/><meta name="twitter:description" content="Matheus Scalabrin, engenheiro de software no Itaú Unibanco. Dynamics 365, Power Platform, SRE e projetos autorais de jogos, IoT e open-source."/><meta name="twitter:image" content="https://scalabrin.dev/assets/images/profile/matheus-scalabrin.jpg"/><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": "https://scalabrin.dev/#profile",
+      "url": "https://scalabrin.dev/",
+      "name": "Matheus Scalabrin | Engenharia de Software, Dynamics 365 e SRE",
+      "description": "Matheus Scalabrin, engenheiro de software no Itaú Unibanco. Dynamics 365, Power Platform, SRE e projetos autorais de jogos, IoT e open-source.",
+      "inLanguage": "pt-BR",
+      "dateModified": "2026-10-16",
+      "isPartOf": {
+        "@id": "https://scalabrin.dev/#website"
+      },
+      "mainEntity": {
+        "@id": "https://scalabrin.dev/#person"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://scalabrin.dev/#website",
+      "url": "https://scalabrin.dev/",
+      "name": "Matheus Scalabrin",
+      "inLanguage": "pt-BR",
+      "publisher": {
+        "@id": "https://scalabrin.dev/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://scalabrin.dev/#person",
+      "name": "Matheus Scalabrin",
+      "alternateName": "Matheus Chiosini Scalabrin",
+      "url": "https://scalabrin.dev/",
+      "image": "https://scalabrin.dev/assets/images/profile/matheus-scalabrin.jpg",
+      "email": "mailto:mcsscalabrin@gmail.com",
+      "jobTitle": "Analista de Engenharia de TI Jr.",
+      "description": "Matheus Scalabrin (Matheus Chiosini Scalabrin) é engenheiro de software em São Paulo, Brasil. Desde outubro de 2026 é Analista de Engenharia de TI Jr. no Itaú Unibanco, no Centro de Excelência (CoE) de Dynamics 365, depois de um estágio na mesma equipe iniciado em janeiro de 2026. Constrói e opera soluções corporativas em Microsoft Dynamics 365 e Power Platform, com foco em integração de sistemas, governança da plataforma e confiabilidade em produção, aplicando práticas de SRE e observabilidade em ambientes .NET, JavaScript, Azure e AWS. Estuda Sistemas de Informação na SPTech School e tem nove certificações, entre elas Devin Certified (Cognition), M365 Copilot Expert e SRE Trained (Itaú Unibanco). Fora do banco, cofundou a Pomegranade Studios, cujo jogo Ruins of The Sacred Tree foi apresentado na Brasil Game Show, e mantém o Gitmon Cards, projeto open-source que transforma perfis do GitHub em cartas colecionáveis.",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Itaú Unibanco",
+        "url": "https://www.itau.com.br/"
+      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "SPTech School"
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "FECAP"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "nationality": {
+        "@type": "Country",
+        "name": "Brasil"
+      },
+      "knowsLanguage": [
+        "pt-BR",
+        "en",
+        "it"
+      ],
+      "knowsAbout": [
+        "C#",
+        ".NET",
+        "JavaScript",
+        "TypeScript",
+        "Dynamics 365",
+        "Power Platform",
+        "AWS",
+        "Azure",
+        "SRE",
+        "Observabilidade",
+        "APIs REST",
+        "Node.js",
+        "SQL",
+        "React",
+        "Next.js",
+        "Unity",
+        "Docker",
+        "Git",
+        "Agentes de IA"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Devin Certified",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Cognition"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Devin Basics",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Cognition"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "M365 Copilot - Expert",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Itaú Unibanco"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Harness Certified Code Repository Developer",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Harness"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Lean - Trained",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Itaú Unibanco"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "M365 Copilot - Trained",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Itaú Unibanco"
+          }
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Automação No/Low Code - Foundation",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Itaú Unibanco"
+          },
+          "url": "https://www.credly.com/badges/2bb39556-378f-43d4-9dbd-0ef8e7d03e36/public_url"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Associate - Generative AI",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Itaú Unibanco"
+          },
+          "url": "https://www.credly.com/badges/fd3a3418-fdaa-4f42-bfcd-9695f5cd976c/public_url"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "SRE - Trained (pt-BR)",
+          "credentialCategory": "certificate",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "Itaú Unibanco"
+          },
+          "url": "https://www.credly.com/badges/3e71c177-6215-4d0b-816b-5145fd814a4f/public_url"
+        }
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/matheus-scalabrin/",
+        "https://github.com/mcsscalabrin",
+        "https://www.instagram.com/scalabrin.dev/",
+        "https://pomegranade-studios.itch.io/"
+      ]
+    }
+  ]
+}</script><script type="module" crossorigin src="/assets/index-ZohnwSau.js"></script><link rel="stylesheet" crossorigin href="/assets/index-BstJe8jB.css"><link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head><body><div id="root"><div class="min-h-screen bg-base-100 text-base-content"><div class="page"><div class="page-toolbar"><span class="theme-toggle" aria-hidden="true"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"></path></svg></span></div><header class="hero-card"><div class="hero-avatar"><img src="/assets/images/profile/matheus-scalabrin-400w.jpg" alt="Matheus Scalabrin" width="144" height="144" decoding="async" fetchpriority="high"/></div><h1 class="hero-name">Matheus Scalabrin</h1><p class="hero-role">Engenheiro de Software · Itaú Unibanco</p><div class="hero-actions"><a href="/assets/docs/matheus-scalabrin-cv-pt.pdf" class="hero-cta" download><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M13.0001 16.1716L18.3641 10.8076L19.7783 12.2218L12.0001 20L4.22192 12.2218L5.63614 10.8076L11.0001 16.1716V4H13.0001V16.1716Z"></path></svg>Currículo</a><ul class="hero-links"><li><a href="https://www.linkedin.com/in/matheus-scalabrin" rel="noreferrer" aria-label="LinkedIn" data-tip="LinkedIn"><span class="hero-link-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M6.94048 4.99993C6.94011 5.81424 6.44608 6.54702 5.69134 6.85273C4.9366 7.15845 4.07187 6.97605 3.5049 6.39155C2.93793 5.80704 2.78195 4.93715 3.1105 4.19207C3.43906 3.44699 4.18654 2.9755 5.00048 2.99993C6.08155 3.03238 6.94097 3.91837 6.94048 4.99993ZM7.00048 8.47993H3.00048V20.9999H7.00048V8.47993ZM13.3205 8.47993H9.34048V20.9999H13.2805V14.4299C13.2805 10.7699 18.0505 10.4299 18.0505 14.4299V20.9999H22.0005V13.0699C22.0005 6.89993 14.9405 7.12993 13.2805 10.1599L13.3205 8.47993Z"></path></svg></span></a></li><li><a href="https://github.com/mcsscalabrin" rel="noreferrer" aria-label="GitHub" data-tip="GitHub"><span class="hero-link-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"></path></svg></span></a></li><li><a href="https://www.instagram.com/scalabrin.dev" rel="noreferrer" aria-label="Instagram" data-tip="Instagram"><span class="hero-link-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 9C10.3436 9 9.00098 10.3431 9.00098 12C9.00098 13.6573 10.3441 15 12.001 15C13.6583 15 15.001 13.6569 15.001 12C15.001 10.3427 13.6579 9 12.001 9ZM12.001 7C14.7614 7 17.001 9.2371 17.001 12C17.001 14.7605 14.7639 17 12.001 17C9.24051 17 7.00098 14.7629 7.00098 12C7.00098 9.23953 9.23808 7 12.001 7ZM18.501 6.74915C18.501 7.43926 17.9402 7.99917 17.251 7.99917C16.5609 7.99917 16.001 7.4384 16.001 6.74915C16.001 6.0599 16.5617 5.5 17.251 5.5C17.9393 5.49913 18.501 6.0599 18.501 6.74915ZM12.001 4C9.5265 4 9.12318 4.00655 7.97227 4.0578C7.18815 4.09461 6.66253 4.20007 6.17416 4.38967C5.74016 4.55799 5.42709 4.75898 5.09352 5.09255C4.75867 5.4274 4.55804 5.73963 4.3904 6.17383C4.20036 6.66332 4.09493 7.18811 4.05878 7.97115C4.00703 9.0752 4.00098 9.46105 4.00098 12C4.00098 14.4745 4.00753 14.8778 4.05877 16.0286C4.0956 16.8124 4.2012 17.3388 4.39034 17.826C4.5591 18.2606 4.7605 18.5744 5.09246 18.9064C5.42863 19.2421 5.74179 19.4434 6.17187 19.6094C6.66619 19.8005 7.19148 19.9061 7.97212 19.9422C9.07618 19.9939 9.46203 20 12.001 20C14.4755 20 14.8788 19.9934 16.0296 19.9422C16.8117 19.9055 17.3385 19.7996 17.827 19.6106C18.2604 19.4423 18.5752 19.2402 18.9074 18.9085C19.2436 18.5718 19.4445 18.2594 19.6107 17.8283C19.8013 17.3358 19.9071 16.8098 19.9432 16.0289C19.9949 14.9248 20.001 14.5389 20.001 12C20.001 9.52552 19.9944 9.12221 19.9432 7.97137C19.9064 7.18906 19.8005 6.66149 19.6113 6.17318C19.4434 5.74038 19.2417 5.42635 18.9084 5.09255C18.573 4.75715 18.2616 4.55693 17.8271 4.38942C17.338 4.19954 16.8124 4.09396 16.0298 4.05781C14.9258 4.00605 14.5399 4 12.001 4ZM12.001 2C14.7176 2 15.0568 2.01 16.1235 2.06C17.1876 2.10917 17.9135 2.2775 18.551 2.525C19.2101 2.77917 19.7668 3.1225 20.3226 3.67833C20.8776 4.23417 21.221 4.7925 21.476 5.45C21.7226 6.08667 21.891 6.81333 21.941 7.8775C21.9885 8.94417 22.001 9.28333 22.001 12C22.001 14.7167 21.991 15.0558 21.941 16.1225C21.8918 17.1867 21.7226 17.9125 21.476 18.55C21.2218 19.2092 20.8776 19.7658 20.3226 20.3217C19.7668 20.8767 19.2076 21.22 18.551 21.475C17.9135 21.7217 17.1876 21.89 16.1235 21.94C15.0568 21.9875 14.7176 22 12.001 22C9.28431 22 8.94514 21.99 7.87848 21.94C6.81431 21.8908 6.08931 21.7217 5.45098 21.475C4.79264 21.2208 4.23514 20.8767 3.67931 20.3217C3.12348 19.7658 2.78098 19.2067 2.52598 18.55C2.27848 17.9125 2.11098 17.1867 2.06098 16.1225C2.01348 15.0558 2.00098 14.7167 2.00098 12C2.00098 9.28333 2.01098 8.94417 2.06098 7.8775C2.11014 6.8125 2.27848 6.0875 2.52598 5.45C2.78014 4.79167 3.12348 4.23417 3.67931 3.67833C4.23514 3.1225 4.79348 2.78 5.45098 2.525C6.08848 2.2775 6.81348 2.11 7.87848 2.06C8.94514 2.0125 9.28431 2 12.001 2Z"></path></svg></span></a></li><li><a href="mailto:mcsscalabrin@gmail.com" rel="noreferrer" aria-label="E-mail" data-tip="E-mail"><span class="hero-link-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"></path></svg></span></a></li></ul></div></header><main><section class="card-section"><div class="card-section-head"><h2 class="card-section-label">Sobre</h2></div><div class="card-section-body"><div class="about-body"><p>Sou engenheiro de software no Itaú Unibanco. Construo e opero soluções corporativas em Dynamics 365 e Power Platform, com foco em integração de sistemas e confiabilidade em produção.</p><p>Aplico SRE e observabilidade em ambientes .NET, JavaScript, Azure e AWS, e venho me aprofundando em engenharia de agentes de IA.</p></div></div></section><section class="card-section"><div class="card-section-head"><h2 class="card-section-label">Trabalho</h2><div class="card-section-aside">6 casos</div></div><div class="card-section-body"><ul class="work-grid"><li><a href="https://pomegranade-studios.itch.io/" target="_blank" rel="noreferrer" class="work-item"><div class="work-cover"><img src="/assets/images/projects/ruins/ruins-banner.jpeg" alt="Capa do projeto Ruins of The Sacred Tree" width="800" height="500" loading="lazy" decoding="async"/></div><div class="work-meta"><h3 class="work-title">Ruins of The Sacred Tree</h3><p class="work-description">Jogo 2D em Unity e C#, apresentado na Brasil Game Show.</p></div></a></li><li><a href="https://gitmon-cards.vercel.app/" target="_blank" rel="noreferrer" class="work-item"><div class="work-cover"><span class="work-cover-wordmark" aria-hidden="true">Gitmon Cards</span></div><div class="work-meta"><h3 class="work-title">Gitmon Cards</h3><p class="work-description">Perfis do GitHub viram cartas colecionáveis. Open-source, em Next.js.</p></div></a></li><li><div class="work-item"><div class="work-cover"><img src="/assets/images/projects/pulso/pulso-cover.jpg" alt="Capa do projeto PULSO: Streetwear Tátil" width="800" height="500" loading="lazy" decoding="async"/></div><div class="work-meta"><h3 class="work-title">PULSO: Streetwear Tátil</h3><p class="work-description">Landing page em React que uma pessoa cega navega sozinha, por voz.</p></div></div></li><li><div class="work-item"><div class="work-cover"><img src="/assets/images/projects/tripflow/tripflow-cover.jpg" alt="Capa do projeto TripFlow" width="800" height="500" loading="lazy" decoding="async"/></div><div class="work-meta"><h3 class="work-title">TripFlow</h3><p class="work-description">App em React Native que fecha as contas de uma viagem em grupo.</p></div></div></li><li><div class="work-item"><div class="work-cover"><img src="/assets/images/pc_builder_app.jpg" alt="Capa do projeto PC Setup Assistant" width="800" height="500" loading="lazy" decoding="async"/></div><div class="work-meta"><h3 class="work-title">PC Setup Assistant</h3><p class="work-description">Assistente em TypeScript para montar um PC sem peças incompatíveis.</p></div></div></li><li><div class="work-item"><div class="work-cover"><img src="/assets/images/plant_moisture_monitor.jpg" alt="Capa do projeto Sensor de Solo Inteligente" width="800" height="500" loading="lazy" decoding="async"/></div><div class="work-meta"><h3 class="work-title">Sensor de Solo Inteligente</h3><p class="work-description">Protótipo IoT em Arduino que mede a umidade do solo sem alarme falso.</p></div></div></li></ul></div></section><section class="card-section"><div class="card-section-head"><h2 class="card-section-label">Experiência</h2></div><div class="card-section-body"><ol class="cv-list"><li class="cv-row is-current"><span class="cv-period">Out 2026 – Atual</span><p class="cv-text"><span class="cv-title">Analista de Engenharia de TI Jr.</span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Jan 2026 – Out 2026</span><p class="cv-text"><span class="cv-title">Estagiário, CoE Dynamics 365</span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Abr 2024 – Jan 2025</span><p class="cv-text"><span class="cv-title">Cofundador e Game Developer</span> <span class="cv-place">Pomegranade Studios</span></p></li></ol></div></section><section class="card-section"><div class="card-section-head"><h2 class="card-section-label">Formação</h2></div><div class="card-section-body"><ol class="cv-list"><li class="cv-row is-current"><span class="cv-period">2025 – Atual</span><p class="cv-text"><span class="cv-title">Bacharelado em Sistemas de Informação</span> <span class="cv-place">SPTech School</span></p></li><li class="cv-row"><span class="cv-period">2024</span><p class="cv-text"><span class="cv-title">Técnico em Desenvolvimento de Jogos Digitais</span> <span class="cv-place">FECAP</span></p></li></ol></div></section><section class="card-section"><div class="card-section-head"><h2 class="card-section-label">Certificações</h2><div class="card-section-aside">9 credenciais</div></div><div class="card-section-body"><ol class="cv-list is-compact"><li class="cv-row"><span class="cv-period">Out 2026</span><p class="cv-text"><span class="cv-title">Devin Certified</span> <span class="cv-place">Cognition</span></p></li><li class="cv-row"><span class="cv-period">Set 2026</span><p class="cv-text"><span class="cv-title">Devin Basics</span> <span class="cv-place">Cognition</span></p></li><li class="cv-row"><span class="cv-period">Jul 2026</span><p class="cv-text"><span class="cv-title">M365 Copilot - Expert</span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Jun 2026</span><p class="cv-text"><span class="cv-title">Harness Certified Code Repository Developer</span> <span class="cv-place">Harness</span></p></li><li class="cv-row"><span class="cv-period">Jun 2026</span><p class="cv-text"><span class="cv-title">Lean - Trained</span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Jun 2026</span><p class="cv-text"><span class="cv-title">M365 Copilot - Trained</span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Mai 2026</span><p class="cv-text"><span class="cv-title"><a href="https://www.credly.com/badges/2bb39556-378f-43d4-9dbd-0ef8e7d03e36/public_url" target="_blank" rel="noreferrer">Automação No/Low Code - Foundation</a></span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Mar 2026</span><p class="cv-text"><span class="cv-title"><a href="https://www.credly.com/badges/fd3a3418-fdaa-4f42-bfcd-9695f5cd976c/public_url" target="_blank" rel="noreferrer">Associate - Generative AI</a></span> <span class="cv-place">Itaú Unibanco</span></p></li><li class="cv-row"><span class="cv-period">Mar 2026</span><p class="cv-text"><span class="cv-title"><a href="https://www.credly.com/badges/3e71c177-6215-4d0b-816b-5145fd814a4f/public_url" target="_blank" rel="noreferrer">SRE - Trained (pt-BR)</a></span> <span class="cv-place">Itaú Unibanco</span></p></li></ol></div></section><section class="card-section"><div class="card-section-head"><h2 class="card-section-label">Competências</h2></div><div class="card-section-body"><ul class="tag-list"><li class="tag">C#</li><li class="tag">.NET</li><li class="tag">JavaScript</li><li class="tag">TypeScript</li><li class="tag">Dynamics 365</li><li class="tag">Power Platform</li><li class="tag">AWS</li><li class="tag">Azure</li><li class="tag">SRE</li><li class="tag">Observabilidade</li><li class="tag">APIs REST</li><li class="tag">Node.js</li><li class="tag">SQL</li><li class="tag">React</li><li class="tag">Next.js</li><li class="tag">Unity</li><li class="tag">Docker</li><li class="tag">Git</li><li class="tag">Agentes de IA</li><li class="tag">Inglês avançado</li><li class="tag">Italiano básico</li></ul></div></section></main><footer class="page-footer"><span>© 2026 Matheus Scalabrin</span></footer></div></div></div></body></html>
